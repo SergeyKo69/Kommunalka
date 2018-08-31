@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="183.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Label text="Payments">
+               <font>
+                  <Font size="47.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox>
+         <children>
+            <ProgressBar fx:id="status" prefHeight="20.0" prefWidth="594.0" progress="0.0" HBox.hgrow="ALWAYS">
+               <rotationAxis>
+                  <Point3D />
+               </rotationAxis>
+            </ProgressBar>
+         </children>
+      </HBox>
+      <HBox>
+         <children>
+            <Label fx:id="lblStatus" text="Status">
+               <font>
+                  <Font name="Arial Bold Italic" size="13.0" />
+               </font>
+            </Label>
+         </children>
+         <VBox.margin>
+            <Insets top="5.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox>
+         <children>
+            <Separator prefWidth="200.0" HBox.hgrow="ALWAYS" />
+         </children>
+         <VBox.margin>
+            <Insets top="5.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox alignment="TOP_RIGHT">
+         <children>
+            <Label text="Developed by Sergey Kogut " textFill="#909090" />
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</VBox>

@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="ru.macrohome.server.SettingsEntity" table="settings" schema="main">
+        <id name="id">
+            <column name="id" sql-type="integer"/>
+        </id>
+        <property name="viewId">
+            <column name="view_id" sql-type="int"/>
+        </property>
+        <property name="date">
+            <column name="date" sql-type="date" not-null="true"/>
+        </property>
+        <property name="val1">
+            <column name="val1" sql-type="varchar(50)" length="50" not-null="true"/>
+        </property>
+        <property name="val2">
+            <column name="val2" sql-type="varchar(50)" length="50" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

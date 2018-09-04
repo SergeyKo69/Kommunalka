@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -13,9 +14,9 @@
          <children>
             <MenuBar HBox.hgrow="ALWAYS">
               <menus>
-                <Menu mnemonicParsing="false" text="File">
+                <Menu mnemonicParsing="false" fx:id="bFile" text="File">
                   <items>
-                    <MenuItem mnemonicParsing="false" onAction="#clickClose" text="Close" />
+                    <MenuItem mnemonicParsing="false" fx:id="bClose" onAction="#clickClose" text="Close" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Functions">
@@ -30,6 +31,19 @@
                 </Menu>
               </menus>
             </MenuBar>
+            <Label text="Personal account:">
+               <HBox.margin>
+                  <Insets right="3.0" top="5.0" />
+               </HBox.margin>
+               <font>
+                  <Font name="Arial Bold" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblAccount" text="123456">
+               <HBox.margin>
+                  <Insets right="5.0" top="5.0" />
+               </HBox.margin>
+            </Label>
          </children>
       </HBox>
       <HBox prefHeight="370.0" prefWidth="600.0">

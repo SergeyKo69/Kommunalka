@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="ru.macrohome.server.PaymentsEntity" table="payments" schema="main">
+        <id name="id">
+            <column name="id" sql-type="integer"/>
+        </id>
+        <property name="date">
+            <column name="date" sql-type="date"/>
+        </property>
+        <property name="viewId">
+            <column name="view_id" sql-type="int"/>
+        </property>
+        <property name="rVal1">
+            <column name="r_val1" sql-type="int" not-null="true"/>
+        </property>
+        <property name="rVal2">
+            <column name="r_val2" sql-type="int" not-null="true"/>
+        </property>
+        <property name="pVal1">
+            <column name="p_val1" sql-type="int" not-null="true"/>
+        </property>
+        <property name="pVal2">
+            <column name="p_val2" sql-type="int" not-null="true"/>
+        </property>
+        <property name="val1">
+            <column name="val1" sql-type="int" not-null="true"/>
+        </property>
+        <property name="val2">
+            <column name="val2" sql-type="int" not-null="true"/>
+        </property>
+        <property name="dataId">
+            <column name="data_id" sql-type="int" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

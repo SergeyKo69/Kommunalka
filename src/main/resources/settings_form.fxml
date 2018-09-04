@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-      minWidth="-Infinity" prefHeight="205.0" prefWidth="600.0"
-      xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="ru.macrohome.client.ControllerSettings">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="205.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.macrohome.client.ControllerSettings">
    <children>
       <HBox alignment="TOP_CENTER">
          <children>
@@ -107,6 +104,30 @@
                         </VBox>
                      </content>
                 </Tab>
+                  <Tab text="Others">
+                     <content>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <HBox>
+                                 <children>
+                                    <Label text="Personal account:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="5.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField fx:id="txtAccount" alignment="CENTER_RIGHT" text="0" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </VBox>
+                     </content>
+                  </Tab>
               </tabs>
             </TabPane>
          </children>

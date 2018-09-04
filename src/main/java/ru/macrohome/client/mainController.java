@@ -3,9 +3,15 @@ package ru.macrohome.client;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class mainController {
 
@@ -47,11 +53,29 @@ public class mainController {
     public Label wPrevVal;
     @FXML
     public TextField wCurValue;
+    @FXML
+    public Label lblAccount;
+    @FXML
+    public MenuItem bClose;
+    @FXML
+    public Menu bFile;
 
     public void clickClose(ActionEvent actionEvent) {
+        Stage s = (Stage) bEPayment.getScene().getWindow();
+        s.close();
     }
 
     public void clickSettings(ActionEvent actionEvent) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/settings_form.fxml"));
+        Parent root = null;
+        try {
+            root = (Parent) fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     public void clickAbout(ActionEvent actionEvent) {

@@ -1,4 +1,4 @@
-package ru.macrohome.server;
+package ru.macrohome.entity;
 
 import javax.persistence.*;
 

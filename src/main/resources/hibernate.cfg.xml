@@ -7,13 +7,13 @@
         <property name="connection.url">jdbc:sqlite:db.sqlite</property>
         <property name="connection.driver_class">org.sqlite.JDBC</property>
         <mapping resource="ru/macrohome/server/DatasEntity.hbm.xml"/>
-        <mapping class="ru.macrohome.server.DatasEntity"/>
-        <mapping class="ru.macrohome.server.PaymentsEntity"/>
+        <mapping class="ru.macrohome.entity.DatasEntity"/>
+        <mapping class="ru.macrohome.entity.PaymentsEntity"/>
         <mapping resource="ru/macrohome/server/PaymentsEntity.hbm.xml"/>
         <mapping resource="ru/macrohome/server/SettingsEntity.hbm.xml"/>
-        <mapping class="ru.macrohome.server.SettingsEntity"/>
+        <mapping class="ru.macrohome.entity.SettingsEntity"/>
         <mapping resource="ru/macrohome/server/ViewsEntity.hbm.xml"/>
-        <mapping class="ru.macrohome.server.ViewsEntity"/>
+        <mapping class="ru.macrohome.entity.ViewsEntity"/>
         <!-- <property name="connection.username"/> -->
         <!-- <property name="connection.password"/> -->
 

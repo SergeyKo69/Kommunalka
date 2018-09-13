@@ -4,20 +4,21 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="connection.url">jdbc:sqlite:db.sqlite</property>
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+        <property name="dialect">org.hibernate.dialect.SQLiteDialect</property>
+        <property name="connection.url">jdbc:sqlite:db.db</property>
         <property name="connection.driver_class">org.sqlite.JDBC</property>
-        <mapping resource="ru/macrohome/server/DatasEntity.hbm.xml"/>
+        <property name="connection.username"/>
+        <property name="connection.password"/>
+        <property name="hbm2ddl.auto">update</property>
+        <mapping resource="/DatasEntity.hbm.xml"/>
         <mapping class="ru.macrohome.entity.DatasEntity"/>
         <mapping class="ru.macrohome.entity.PaymentsEntity"/>
-        <mapping resource="ru/macrohome/server/PaymentsEntity.hbm.xml"/>
-        <mapping resource="ru/macrohome/server/SettingsEntity.hbm.xml"/>
+        <mapping resource="/PaymentsEntity.hbm.xml"/>
+        <mapping resource="/SettingsEntity.hbm.xml"/>
         <mapping class="ru.macrohome.entity.SettingsEntity"/>
-        <mapping resource="ru/macrohome/server/ViewsEntity.hbm.xml"/>
+        <mapping resource="/ViewsEntity.hbm.xml"/>
         <mapping class="ru.macrohome.entity.ViewsEntity"/>
-        <!-- <property name="connection.username"/> -->
-        <!-- <property name="connection.password"/> -->
-
-        <!-- DB schema will be updated if needed -->
-        <!-- <property name="hbm2ddl.auto">update</property> -->
-    </session-factory>
+   </session-factory>
 </hibernate-configuration>

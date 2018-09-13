@@ -1,63 +1,67 @@
 package ru.macrohome.entity;
 
+import ru.macrohome.common.Entities;
+
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
-@Table(name = "settings", schema = "main", catalog = "")
-public class SettingsEntity {
-    private short id;
-    private Object viewId;
-    private Object date;
-    private Object val1;
-    private Object val2;
+@Table(name = "settings", schema = "main")
+public class SettingsEntity extends Entities {
+    private Integer id;
+    private Integer viewId;
+    private Date date;
+    private String val1;
+    private String val2;
 
     @Id
-    @Column(name = "id", nullable = false)
-    public short getId() {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    public Integer getId() {
         return id;
     }
 
-    public void setId(short id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
     @Basic
     @Column(name = "view_id", nullable = false)
-    public Object getViewId() {
+    public Integer getViewId() {
         return viewId;
     }
 
-    public void setViewId(Object viewId) {
+    public void setViewId(Integer viewId) {
         this.viewId = viewId;
     }
 
     @Basic
     @Column(name = "date", nullable = true)
-    public Object getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(Object date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
     @Basic
     @Column(name = "val1", nullable = true, length = 50)
-    public Object getVal1() {
+    public String getVal1() {
         return val1;
     }
 
-    public void setVal1(Object val1) {
+    public void setVal1(String val1) {
         this.val1 = val1;
     }
 
     @Basic
     @Column(name = "val2", nullable = true, length = 50)
-    public Object getVal2() {
+    public String getVal2() {
         return val2;
     }
 
-    public void setVal2(Object val2) {
+    public void setVal2(String val2) {
         this.val2 = val2;
     }
 

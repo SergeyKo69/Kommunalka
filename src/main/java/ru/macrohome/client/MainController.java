@@ -9,11 +9,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import ru.macrohome.common.*;
+import ru.macrohome.entity.ViewsEntity;
+import ru.macrohome.server.DataBaseUtility;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
-public class mainController {
+public class MainController {
 
     @FXML
     public Label ePriceDay;
@@ -60,9 +65,39 @@ public class mainController {
     @FXML
     public Menu bFile;
 
+    @FXML
+    public void initialize(){
+        eDate.setValue(LocalDate.now());
+        initTables();
+    }
+
     public void clickClose(ActionEvent actionEvent) {
-        Stage s = (Stage) bEPayment.getScene().getWindow();
-        s.close();
+        close();
+    }
+
+    private void initTables(){
+        initView();
+    }
+
+    private void initView(){
+        Answer answ = DataBaseUtility.getList(Tables.VIEWS, new Condition[0]);
+        if (answ.answ == Answers.ERROR){
+            InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error initialization",answ.description + "\n Application will be close");
+            close();
+        }else if (answ.list.size() < 1){
+            ViewsEntity[] views = new ViewsEntity[2];
+            views[0] = new ViewsEntity();
+            views[0].setName("Electricity");
+            views[0].setId_v(1);
+            views[1] = new ViewsEntity();
+            views[1].setName("Water");
+            views[1].setId_v(2);
+            answ = DataBaseUtility.saveEntity(views);
+            if (answ.answ == Answers.ERROR){
+                InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error initialization","Application will be close");
+                close();
+            }
+        }
     }
 
     public void clickSettings(ActionEvent actionEvent) {
@@ -75,7 +110,8 @@ public class mainController {
         }
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
-        stage.show();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
     }
 
     public void clickAbout(ActionEvent actionEvent) {
@@ -103,5 +139,10 @@ public class mainController {
     }
 
     public void wValueKeyTyped(KeyEvent keyEvent) {
+    }
+
+    private void close(){
+        Stage s = (Stage) bEPayment.getScene().getWindow();
+        s.close();
     }
 }

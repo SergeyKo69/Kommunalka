@@ -1,41 +1,43 @@
 package ru.macrohome.entity;
 
+import ru.macrohome.common.Entities;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name = "datas", schema = "main", catalog = "")
-public class DatasEntity {
-    private short id;
-    private Object name;
-    private Object data;
+@Table(name = "datas", schema = "main")
+public class DatasEntity extends Entities {
+    private Integer id;
+    private String name;
+    private byte[] data;
 
     @Id
     @Column(name = "id", nullable = false)
-    public short getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(short id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
     @Basic
     @Column(name = "name", nullable = true, length = 100)
-    public Object getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(Object name) {
+    public void setName(String name) {
         this.name = name;
     }
 
     @Basic
     @Column(name = "data", nullable = true)
-    public Object getData() {
+    public byte[] getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(byte[] data) {
         this.data = data;
     }
 

@@ -6,7 +6,7 @@
 
     <class name="ru.macrohome.entity.PaymentsEntity" table="payments" schema="main">
         <id name="id">
-            <column name="id" sql-type="integer"/>
+            <generator class="increment"/>
         </id>
         <property name="date">
             <column name="date" sql-type="date"/>

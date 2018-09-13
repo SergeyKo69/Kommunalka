@@ -1,48 +1,51 @@
 package ru.macrohome.entity;
 
+import ru.macrohome.common.Entities;
+
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
-@Table(name = "payments", schema = "main", catalog = "")
-public class PaymentsEntity {
-    private short id;
-    private Object date;
-    private Object viewId;
-    private Object rVal1;
-    private Object rVal2;
-    private Object pVal1;
-    private Object pVal2;
-    private Object val1;
-    private Object val2;
-    private Object dataId;
+@Table(name = "payments", schema = "main")
+public class PaymentsEntity extends Entities {
+    private Integer id;
+    private Date date;
+    private Integer viewId;
+    private Integer rVal1;
+    private Integer rVal2;
+    private Integer pVal1;
+    private Integer pVal2;
+    private Integer val1;
+    private Integer val2;
+    private Integer dataId;
 
     @Id
     @Column(name = "id", nullable = false)
-    public short getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(short id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
     @Basic
     @Column(name = "date", nullable = false)
-    public Object getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(Object date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
     @Basic
     @Column(name = "view_id", nullable = false)
-    public Object getViewId() {
+    public Integer getViewId() {
         return viewId;
     }
 
-    public void setViewId(Object viewId) {
+    public void setViewId(Integer viewId) {
         this.viewId = viewId;
     }
 
@@ -52,17 +55,17 @@ public class PaymentsEntity {
         return rVal1;
     }
 
-    public void setrVal1(Object rVal1) {
+    public void setrVal1(Integer rVal1) {
         this.rVal1 = rVal1;
     }
 
     @Basic
     @Column(name = "r_val2", nullable = true)
-    public Object getrVal2() {
+    public Integer getrVal2() {
         return rVal2;
     }
 
-    public void setrVal2(Object rVal2) {
+    public void setrVal2(Integer rVal2) {
         this.rVal2 = rVal2;
     }
 
@@ -72,47 +75,47 @@ public class PaymentsEntity {
         return pVal1;
     }
 
-    public void setpVal1(Object pVal1) {
+    public void setpVal1(Integer pVal1) {
         this.pVal1 = pVal1;
     }
 
     @Basic
     @Column(name = "p_val2", nullable = true)
-    public Object getpVal2() {
+    public Integer getpVal2() {
         return pVal2;
     }
 
-    public void setpVal2(Object pVal2) {
+    public void setpVal2(Integer pVal2) {
         this.pVal2 = pVal2;
     }
 
     @Basic
     @Column(name = "val1", nullable = true)
-    public Object getVal1() {
+    public Integer getVal1() {
         return val1;
     }
 
-    public void setVal1(Object val1) {
+    public void setVal1(Integer val1) {
         this.val1 = val1;
     }
 
     @Basic
     @Column(name = "val2", nullable = true)
-    public Object getVal2() {
+    public Integer getVal2() {
         return val2;
     }
 
-    public void setVal2(Object val2) {
+    public void setVal2(Integer val2) {
         this.val2 = val2;
     }
 
     @Basic
     @Column(name = "data_id", nullable = true)
-    public Object getDataId() {
+    public Integer getDataId() {
         return dataId;
     }
 
-    public void setDataId(Object dataId) {
+    public void setDataId(Integer dataId) {
         this.dataId = dataId;
     }
 

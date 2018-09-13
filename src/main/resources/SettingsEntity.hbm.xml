@@ -6,7 +6,7 @@
 
     <class name="ru.macrohome.entity.SettingsEntity" table="settings" schema="main">
         <id name="id">
-            <column name="id" sql-type="integer"/>
+            <generator class="increment"/>
         </id>
         <property name="viewId">
             <column name="view_id" sql-type="int"/>
@@ -15,10 +15,10 @@
             <column name="date" sql-type="date" not-null="true"/>
         </property>
         <property name="val1">
-            <column name="val1" sql-type="varchar(50)" length="50" not-null="true"/>
+            <column name="val1" sql-type="varchar(50)" length="50" not-null="false"/>
         </property>
         <property name="val2">
-            <column name="val2" sql-type="varchar(50)" length="50" not-null="true"/>
+            <column name="val2" sql-type="varchar(50)" length="50" not-null="false"/>
         </property>
     </class>
 </hibernate-mapping>

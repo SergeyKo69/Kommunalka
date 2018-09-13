@@ -1,30 +1,46 @@
 package ru.macrohome.entity;
 
+import ru.macrohome.common.Entities;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name = "views", schema = "main", catalog = "")
-public class ViewsEntity {
-    private short id;
-    private Object name;
+@Table(name = "views", schema = "main")
+public class ViewsEntity extends Entities {
+    private Integer id;
+    private String name;
+    private Integer id_v;
+
+
+    @Basic
+    @Column(name = "id_v")
+    public Integer getId_v() {
+        return id_v;
+    }
+
+    public void setId_v(Integer id_v) {
+        this.id_v = id_v;
+    }
 
     @Id
-    @Column(name = "id", nullable = false)
-    public short getId() {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    public Integer getId() {
         return id;
     }
 
-    public void setId(short id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
+
     @Basic
     @Column(name = "name", nullable = false, length = 50)
-    public Object getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(Object name) {
+    public void setName(String name) {
         this.name = name;
     }
 

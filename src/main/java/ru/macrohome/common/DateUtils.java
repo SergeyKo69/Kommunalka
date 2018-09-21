@@ -3,6 +3,7 @@ package ru.macrohome.common;
 import javafx.util.StringConverter;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -34,5 +35,9 @@ public class DateUtils {
             }
         };
         return converter;
+    }
+
+    public static String getDateInFormated(Date date){
+        return new SimpleDateFormat("dd.MM.yyyy").format(date);
     }
 }

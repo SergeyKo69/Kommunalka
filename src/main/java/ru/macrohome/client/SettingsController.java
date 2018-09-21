@@ -72,9 +72,8 @@ public class SettingsController {
             List<Entities> list = answ.list;
             if (list.size() == 0){
                 eDate.setValue(LocalDate.now());
-            }
-            for (int i = 0; i < list.size(); i++) {
-                SettingsEntity settings = (SettingsEntity) list.get(i);
+            }else{
+                SettingsEntity settings = (SettingsEntity) list.get(0);
                 temp_eSettings = settings;
                 eDate.setValue(settings.getDate().toLocalDate());
                 eDay.setText(settings.getVal1());
@@ -91,9 +90,8 @@ public class SettingsController {
             List<Entities> list = answ.list;
             if (list.size() == 0){
                 wDate.setValue(LocalDate.now());
-            }
-            for (int i = 0; i < list.size(); i++) {
-                SettingsEntity settings = (SettingsEntity) list.get(i);
+            }else{
+                SettingsEntity settings = (SettingsEntity) list.get(0);
                 temp_wSettings = settings;
                 wDate.setValue(settings.getDate().toLocalDate());
                 wValue.setText(settings.getVal1());
@@ -107,8 +105,8 @@ public class SettingsController {
             InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error get personal account settings",answ.description + "\n You need reopen application");
         }else{
             List<Entities> list = answ.list;
-            for (int i = 0; i < list.size(); i++) {
-                SettingsEntity settings = (SettingsEntity) list.get(i);
+            if (list.size() > 0){
+                SettingsEntity settings = (SettingsEntity) list.get(0);
                 temp_aSettings = settings;
                 txtAccount.setText(settings.getVal1());
             }
@@ -116,8 +114,8 @@ public class SettingsController {
     }
 
     private void getSettings(){
-        //Electricity.
         Date date = Date.valueOf(LocalDate.now());
+        //Electricity.
         getESettings(date);
         //Water.
         getWSettings(date);
@@ -222,7 +220,7 @@ public class SettingsController {
     }
 
     public void clickOpenHistory(ActionEvent event) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/historyElectricity_form.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/historySElectricity_form.fxml"));
         Parent root = null;
         try {
             root = (Parent) fxmlLoader.load();
@@ -236,7 +234,7 @@ public class SettingsController {
     }
 
     public void clickOpenWaterHistory(ActionEvent event) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/historyWater_form.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/historySWater_form.fxml"));
         Parent root = null;
         try {
             root = (Parent) fxmlLoader.load();

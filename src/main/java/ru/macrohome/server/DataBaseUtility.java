@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import ru.macrohome.common.*;
+import ru.macrohome.entity.PaymentsEntity;
 import ru.macrohome.entity.SettingsEntity;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -67,6 +68,34 @@ public class DataBaseUtility {
             List<Entities> list = null;
             Query query = session.createQuery("FROM SettingsEntity WHERE " +
                     "date <= :date AND viewId = :viewId ORDER BY date DESC", SettingsEntity.class)
+                    .setParameter("date", date)
+                    .setParameter("viewId", id_view)
+                    .setFirstResult(0)
+                    .setMaxResults(1);
+            list = query.getResultList();
+            return new Answer(Answers.OK, list);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Answer(Answers.ERROR, e.getMessage());
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
+    public static Answer getPaymentFirstValueByDateView(Date date, int id_view){
+
+        Session session = null;
+        try {
+            SessionFactory sessionFactory = Connector.getSessionFactory();
+            if (sessionFactory == null) {
+                return new Answer(Answers.ERROR, "Error get database session");
+            }
+            session = sessionFactory.openSession();
+            List<Entities> list = null;
+            Query query = session.createQuery("FROM PaymentsEntity WHERE " +
+                    "date <= :date AND viewId = :viewId ORDER BY date DESC", PaymentsEntity.class)
                     .setParameter("date", date)
                     .setParameter("viewId", id_view)
                     .setFirstResult(0)

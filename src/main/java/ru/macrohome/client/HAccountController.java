@@ -1,5 +1,7 @@
 package ru.macrohome.client;
 
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,18 +16,18 @@ import ru.macrohome.entity.SettingsEntity;
 import java.sql.Date;
 
 public class HAccountController {
-    private ObservableList<SettingsEntity> tableSettings = FXCollections.observableArrayList();
+    private ObservableList<HistoryTable> tableSettings = FXCollections.observableArrayList();
 
     @FXML
     public Button bDel;
     @FXML
     public TableView tTableHistory;
     @FXML
-    public TableColumn<SettingsEntity, Integer> id;
+    public TableColumn<HistoryTable, Integer> id;
     @FXML
-    public TableColumn<SettingsEntity, Date> date;
+    public TableColumn<HistoryTable, String> date;
     @FXML
-    public TableColumn<SettingsEntity, String> value;
+    public TableColumn<HistoryTable, String> value;
     @FXML
     public Button bClose;
 
@@ -36,9 +38,12 @@ public class HAccountController {
     }
 
     private void initTable(){
-        id.setCellValueFactory(new PropertyValueFactory<SettingsEntity, Integer>("id"));
-        date.setCellValueFactory(new PropertyValueFactory<SettingsEntity, Date>("date"));
-        value.setCellValueFactory(new PropertyValueFactory<SettingsEntity, String>("val1"));
+        id.setCellValueFactory(tableSettings->new SimpleObjectProperty<>(tableSettings.getValue().getId()));
+        date.setCellValueFactory(tableSettings->new SimpleStringProperty(tableSettings.getValue().getDate()));
+        value.setCellValueFactory(tableSettings->new SimpleStringProperty(tableSettings.getValue().getVal1()));
+        id.setStyle("-fx-alignment: CENTER;");
+        date.setStyle("-fx-alignment: CENTER;");
+        value.setStyle("-fx-alignment: CENTER-RIGHT;");
     }
 
     private void initHistory(){

@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.macrohome.client.MainController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="399.0" prefWidth="718.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.macrohome.client.MainController">
    <children>
       <HBox>
          <children>
@@ -37,7 +37,7 @@
                   <Font name="Arial Bold" size="13.0" />
                </font>
             </Label>
-            <Label fx:id="lblAccount" text="123456">
+            <Label fx:id="lblAccount" text="123456" textFill="RED">
                <HBox.margin>
                   <Insets right="5.0" top="5.0" />
                </HBox.margin>
@@ -83,7 +83,7 @@
                                           <Insets right="3.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="ePriceDay" text="0">
+                                    <Label fx:id="ePriceDay" text="0" textFill="RED">
                                        <font>
                                           <Font name="Arial Bold" size="13.0" />
                                        </font>
@@ -99,7 +99,7 @@
                                           <Insets right="3.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="ePriceNight" text="0">
+                                    <Label fx:id="ePriceNight" text="0" textFill="RED">
                                        <font>
                                           <Font name="Arial Bold" size="13.0" />
                                        </font>
@@ -115,7 +115,7 @@
                                           <Insets right="3.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label text="RUB">
+                                    <Label text="RUB" textFill="RED">
                                        <font>
                                           <Font name="Arial Bold Italic" size="13.0" />
                                        </font>
@@ -178,7 +178,7 @@
                                                       <Insets right="13.0" top="5.0" />
                                                    </HBox.margin>
                                                 </Label>
-                                                <TextField fx:id="txtEDayCurValue" alignment="CENTER_RIGHT" onKeyTyped="#eDayKeyTyped" promptText="0" />
+                                                <TextField fx:id="fEDayCurValue" alignment="CENTER_RIGHT" onKeyReleased="#eDayKeyReleased" onKeyTyped="#eDayKeyTyped" promptText="0" />
                                                 <Label text="Value:">
                                                    <HBox.margin>
                                                       <Insets left="10.0" top="5.0" />
@@ -187,7 +187,7 @@
                                                       <Font name="Arial Bold" size="13.0" />
                                                    </font>
                                                 </Label>
-                                                <Label fx:id="eDayCurValueKwt" text="0">
+                                                <Label fx:id="eDayCurValueKwt" text=".00">
                                                    <HBox.margin>
                                                       <Insets left="3.0" top="5.0" />
                                                    </HBox.margin>
@@ -200,7 +200,7 @@
                                                       <Font name="Arial Bold" size="13.0" />
                                                    </font>
                                                 </Label>
-                                                <Label fx:id="eDayCostValue" text="0">
+                                                <Label fx:id="eDayCostValue" text=".00">
                                                    <HBox.margin>
                                                       <Insets left="3.0" top="5.0" />
                                                    </HBox.margin>
@@ -217,7 +217,7 @@
                                                       <Insets right="3.0" top="5.0" />
                                                    </HBox.margin>
                                                 </Label>
-                                                <TextField fx:id="txtENightCurValue" alignment="CENTER_RIGHT" onKeyTyped="#eNightKeyTyped" promptText="0" />
+                                                <TextField fx:id="fENightCurValue" alignment="CENTER_RIGHT" onKeyReleased="#eNightKeyReleased" promptText="0" />
                                                 <Label text="Value:">
                                                    <font>
                                                       <Font name="Arial Bold" size="13.0" />
@@ -226,7 +226,7 @@
                                                       <Insets left="10.0" top="5.0" />
                                                    </HBox.margin>
                                                 </Label>
-                                                <Label fx:id="eNightCurValueKwt" text="0">
+                                                <Label fx:id="eNightCurValueKwt" text=".00">
                                                    <HBox.margin>
                                                       <Insets left="3.0" top="5.0" />
                                                    </HBox.margin>
@@ -239,7 +239,7 @@
                                                       <Insets left="5.0" top="5.0" />
                                                    </HBox.margin>
                                                 </Label>
-                                                <Label fx:id="eNightCostValue" text="0">
+                                                <Label fx:id="eNightCostValue" text=".00">
                                                    <HBox.margin>
                                                       <Insets left="3.0" top="5.0" />
                                                    </HBox.margin>
@@ -297,7 +297,7 @@
                               </HBox>
                               <HBox>
                                  <children>
-                                    <Button fx:id="bERemovePayment" mnemonicParsing="false" text="-">
+                                    <Button fx:id="bERemovePayment" mnemonicParsing="false" onMouseClicked="#clickRemoveEHistory" text="-">
                                        <HBox.margin>
                                           <Insets left="5.0" />
                                        </HBox.margin>
@@ -308,26 +308,27 @@
                                  <children>
                                     <TableView fx:id="tableEPayments" onMouseClicked="#clickEHistory" HBox.hgrow="ALWAYS">
                                       <columns>
-                                        <TableColumn prefWidth="43.0" text="id" />
-                                        <TableColumn prefWidth="203.0" text="Value">
+                                        <TableColumn fx:id="id" prefWidth="43.0" text="id" />
+                                          <TableColumn fx:id="eHDate" prefWidth="102.0" text="Date" />
+                                        <TableColumn prefWidth="148.0" text="Value">
                                              <columns>
-                                                <TableColumn prefWidth="89.0" text="Day" />
-                                                <TableColumn prefWidth="86.0" text="Night" />
+                                                <TableColumn fx:id="eHDay" prefWidth="89.0" text="Day" />
+                                                <TableColumn fx:id="eHNight" prefWidth="86.0" text="Night" />
                                              </columns>
                                           </TableColumn>
                                           <TableColumn prefWidth="164.0" text="Price">
                                              <columns>
-                                                <TableColumn prefWidth="75.0" text="Day" />
-                                                <TableColumn prefWidth="75.0" text="Night" />
+                                                <TableColumn fx:id="eHPDay" prefWidth="75.0" text="Day" />
+                                                <TableColumn fx:id="eHPNight" prefWidth="75.0" text="Night" />
                                              </columns>
                                           </TableColumn>
                                           <TableColumn prefWidth="75.0" text="Kwt/h">
                                              <columns>
-                                                <TableColumn prefWidth="75.0" text="Day" />
-                                                <TableColumn prefWidth="75.0" text="Night" />
+                                                <TableColumn fx:id="eHKwtDay" prefWidth="75.0" text="Day" />
+                                                <TableColumn fx:id="eHKwtNight" prefWidth="75.0" text="Night" />
                                              </columns>
                                           </TableColumn>
-                                          <TableColumn prefWidth="75.0" text="Total" />
+                                          <TableColumn fx:id="eHTotal" prefWidth="94.0" text="Total" />
                                       </columns>
                                     </TableView>
                                  </children>
@@ -367,12 +368,12 @@
                                           <Insets right="5.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="wPrice" text="0">
+                                    <Label fx:id="wPrice" text="0" textFill="RED">
                                        <font>
                                           <Font name="Arial Bold" size="13.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Cerrency:">
+                                    <Label text="Currency:">
                                        <HBox.margin>
                                           <Insets left="3.0" right="5.0" />
                                        </HBox.margin>
@@ -380,7 +381,7 @@
                                           <Font name="Arial Bold" size="13.0" />
                                        </font>
                                     </Label>
-                                    <Label text="RUB">
+                                    <Label text="RUB" textFill="RED">
                                        <font>
                                           <Font name="Arial Bold" size="13.0" />
                                        </font>
@@ -437,7 +438,7 @@
                                           <Insets top="5.0" />
                                        </HBox.margin>
                                        <children>
-                                          <TextField fx:id="wCurValue" alignment="CENTER_RIGHT" onKeyTyped="#wValueKeyTyped" text="0" />
+                                          <TextField fx:id="wCurValue" alignment="CENTER_RIGHT" onKeyReleased="#wValueKeyReleased" text="0" />
                                           <Label text="Value:">
                                              <HBox.margin>
                                                 <Insets left="5.0" top="5.0" />
@@ -446,7 +447,7 @@
                                                 <Font name="Arial Bold" size="13.0" />
                                              </font>
                                           </Label>
-                                          <Label text="0">
+                                          <Label fx:id="wCurValueM3" text="0">
                                              <HBox.margin>
                                                 <Insets left="3.0" top="5.0" />
                                              </HBox.margin>
@@ -462,7 +463,7 @@
                                                 <Font name="Arial Bold" size="13.0" />
                                              </font>
                                           </Label>
-                                          <Label text="0">
+                                          <Label fx:id="wCurCost" text="0">
                                              <HBox.margin>
                                                 <Insets left="3.0" top="5.0" />
                                              </HBox.margin>
@@ -492,7 +493,7 @@
                                                 <Font name="Arial Bold" size="13.0" />
                                              </font>
                                           </Label>
-                                          <Label text="0">
+                                          <Label fx:id="wTotal" text="0">
                                              <HBox.margin>
                                                 <Insets left="5.0" top="5.0" />
                                              </HBox.margin>
@@ -509,7 +510,7 @@
                                     <HBox prefHeight="100.0" prefWidth="200.0" />
                                     <HBox prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <Button mnemonicParsing="false" text="Payment">
+                                          <Button fx:id="bwPayment" mnemonicParsing="false" onAction="#clickWPayment" text="Payment">
                                              <HBox.margin>
                                                 <Insets top="5.0" />
                                              </HBox.margin>
@@ -525,18 +526,19 @@
                               </HBox>
                               <HBox prefHeight="25.0" prefWidth="590.0">
                                  <children>
-                                    <Button mnemonicParsing="false" text="-" />
+                                    <Button fx:id="bWRemovePayment" onMouseClicked="#clickWRemoveHistory" mnemonicParsing="false" text="-" />
                                  </children>
                               </HBox>
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <TableView prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                    <TableView fx:id="tableWPayment" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                       <columns>
-                                        <TableColumn prefWidth="56.0" text="id" />
-                                        <TableColumn prefWidth="128.0" text="Value" />
-                                          <TableColumn prefWidth="90.0" text="Price" />
-                                          <TableColumn prefWidth="110.0" text="M3" />
-                                          <TableColumn minWidth="0.0" prefWidth="184.0" text="Total" />
+                                        <TableColumn fx:id="wtId" prefWidth="56.0" text="id" />
+                                          <TableColumn fx:id="wtDate" prefWidth="132.0" text="Date" />
+                                        <TableColumn fx:id="wValue" prefWidth="169.0" text="Value" />
+                                          <TableColumn fx:id="wtPrice" prefWidth="89.0" text="Price" />
+                                          <TableColumn fx:id="wtM3" prefWidth="120.0" text="M3" />
+                                          <TableColumn fx:id="wtTotal" minWidth="0.0" prefWidth="137.0" text="Total" />
                                       </columns>
                                     </TableView>
                                  </children>

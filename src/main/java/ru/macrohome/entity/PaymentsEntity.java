@@ -3,7 +3,7 @@ package ru.macrohome.entity;
 import ru.macrohome.common.Entities;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 
 @Entity
 @Table(name = "payments", schema = "main")
@@ -11,12 +11,12 @@ public class PaymentsEntity extends Entities {
     private Integer id;
     private Date date;
     private Integer viewId;
-    private Integer rVal1;
-    private Integer rVal2;
-    private Integer pVal1;
-    private Integer pVal2;
-    private Integer val1;
-    private Integer val2;
+    private String rVal1;
+    private String rVal2;
+    private String pVal1;
+    private String pVal2;
+    private String val1;
+    private String val2;
     private Integer dataId;
 
     @Id
@@ -51,61 +51,61 @@ public class PaymentsEntity extends Entities {
 
     @Basic
     @Column(name = "r_val1", nullable = true)
-    public Object getrVal1() {
+    public String getrVal1() {
         return rVal1;
     }
 
-    public void setrVal1(Integer rVal1) {
+    public void setrVal1(String rVal1) {
         this.rVal1 = rVal1;
     }
 
     @Basic
     @Column(name = "r_val2", nullable = true)
-    public Integer getrVal2() {
+    public String getrVal2() {
         return rVal2;
     }
 
-    public void setrVal2(Integer rVal2) {
+    public void setrVal2(String rVal2) {
         this.rVal2 = rVal2;
     }
 
     @Basic
     @Column(name = "p_val1", nullable = true)
-    public Object getpVal1() {
+    public String getpVal1() {
         return pVal1;
     }
 
-    public void setpVal1(Integer pVal1) {
+    public void setpVal1(String pVal1) {
         this.pVal1 = pVal1;
     }
 
     @Basic
     @Column(name = "p_val2", nullable = true)
-    public Integer getpVal2() {
+    public String getpVal2() {
         return pVal2;
     }
 
-    public void setpVal2(Integer pVal2) {
+    public void setpVal2(String pVal2) {
         this.pVal2 = pVal2;
     }
 
     @Basic
     @Column(name = "val1", nullable = true)
-    public Integer getVal1() {
+    public String getVal1() {
         return val1;
     }
 
-    public void setVal1(Integer val1) {
+    public void setVal1(String val1) {
         this.val1 = val1;
     }
 
     @Basic
     @Column(name = "val2", nullable = true)
-    public Integer getVal2() {
+    public String getVal2() {
         return val2;
     }
 
-    public void setVal2(Integer val2) {
+    public void setVal2(String val2) {
         this.val2 = val2;
     }
 

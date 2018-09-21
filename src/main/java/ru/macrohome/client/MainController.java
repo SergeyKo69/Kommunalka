@@ -1,5 +1,10 @@
 package ru.macrohome.client;
 
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -7,18 +12,29 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.macrohome.common.*;
+import ru.macrohome.entity.PaymentsEntity;
+import ru.macrohome.entity.SettingsEntity;
 import ru.macrohome.entity.ViewsEntity;
 import ru.macrohome.server.DataBaseUtility;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
 public class MainController {
+    private ObservableList<EHTable> tableEHistory = FXCollections.observableArrayList();
+    private ObservableList<WHTable> tableWHistory = FXCollections.observableArrayList();
+    public DecimalFormat df = new DecimalFormat("#.00");
 
     @FXML
     public Label ePriceDay;
@@ -31,13 +47,13 @@ public class MainController {
     @FXML
     public Label eNightPrevValue;
     @FXML
-    public TextField txtEDayCurValue;
+    public TextField fEDayCurValue;
     @FXML
     public Label eDayCurValueKwt;
     @FXML
     public Label eDayCostValue;
     @FXML
-    public TextField txtENightCurValue;
+    public TextField fENightCurValue;
     @FXML
     public Label eNightCurValueKwt;
     @FXML
@@ -49,7 +65,25 @@ public class MainController {
     @FXML
     public Button bERemovePayment;
     @FXML
-    public TableView tableEPayments;
+    public TableView<EHTable> tableEPayments;
+    @FXML
+    public TableColumn<EHTable, Integer> id;
+    @FXML
+    public TableColumn<EHTable, String> eHDate;
+    @FXML
+    public TableColumn<EHTable, String> eHDay;
+    @FXML
+    public TableColumn<EHTable, String> eHNight;
+    @FXML
+    public TableColumn<EHTable, String> eHPDay;
+    @FXML
+    public TableColumn<EHTable, String> eHPNight;
+    @FXML
+    public TableColumn<EHTable, String> eHKwtDay;
+    @FXML
+    public TableColumn<EHTable, String> eHKwtNight;
+    @FXML
+    public TableColumn<EHTable, String> eHTotal;
     @FXML
     public DatePicker wDate;
     @FXML
@@ -64,11 +98,38 @@ public class MainController {
     public MenuItem bClose;
     @FXML
     public Menu bFile;
+    @FXML
+    public Label eTotalPayment;
+    @FXML
+    public Label wCurValueM3;
+    @FXML
+    public Label wCurCost;
+    @FXML
+    public Button bWRemovePayment;
+    @FXML
+    public TableView<WHTable> tableWPayment;
+    @FXML
+    public TableColumn<WHTable, Integer> wtId;
+    @FXML
+    public TableColumn<WHTable, String> wtDate;
+    @FXML
+    public TableColumn<WHTable, String> wValue;
+    @FXML
+    public TableColumn<WHTable, String> wtPrice;
+    @FXML
+    public TableColumn<WHTable, String> wtM3;
+    @FXML
+    public TableColumn<WHTable, String> wtTotal;
+    @FXML
+    public Label wTotal;
 
     @FXML
     public void initialize(){
-        eDate.setValue(LocalDate.now());
+        initFirstValues();
         initTables();
+        initDatas();
+        initLateEPaymentValues();
+        initLateWPaymentValues();
     }
 
     public void clickClose(ActionEvent actionEvent) {
@@ -77,6 +138,138 @@ public class MainController {
 
     private void initTables(){
         initView();
+        initETable();
+        initWTable();
+        History.initEPaymentHistory(tableEHistory, tableEPayments);
+        History.initWPaymentHistory(tableWHistory, tableWPayment);
+    }
+
+    public void initLateEPaymentValues() {
+        eDayPrevValue.setText("0");
+        eNightPrevValue.setText("0");
+        Answer answ = DataBaseUtility.getPaymentFirstValueByDateView(Date.valueOf(eDate.getValue()), 1);
+        if (answ.answ == Answers.ERROR) {
+            InterfaceBoxes.showMessage(Alert.AlertType.ERROR, "Error initialization", answ.description + "\n Application will be close");
+            close();
+        }else {
+            if (answ.list.size() > 0) {
+                PaymentsEntity payment = (PaymentsEntity) answ.list.get(0);
+                eDayPrevValue.setText(payment.getrVal1());
+                eNightPrevValue.setText(payment.getrVal2());
+            }
+        }
+    }
+
+    public void initLateWPaymentValues() {
+        wPrevVal.setText("0");
+        Answer answ = DataBaseUtility.getPaymentFirstValueByDateView(Date.valueOf(eDate.getValue()), 2);
+        if (answ.answ == Answers.ERROR) {
+            InterfaceBoxes.showMessage(Alert.AlertType.ERROR, "Error initialization", answ.description + "\n Application will be close");
+            close();
+        }else{
+            if (answ.list.size() > 0){
+                PaymentsEntity payment = (PaymentsEntity)answ.list.get(0);
+                wPrevVal.setText(payment.getrVal1());
+            }
+        }
+    }
+
+    private void initETable() {
+        id.setCellValueFactory(new PropertyValueFactory<EHTable, Integer>("id"));
+        eHDate.setCellValueFactory(tableEHistory->new SimpleStringProperty(tableEHistory.getValue().getDate()));
+        eHDay.setCellValueFactory(tableEHistory->new SimpleStringProperty(tableEHistory.getValue().geteHDay()));
+        eHNight.setCellValueFactory(tableEHistory->new SimpleStringProperty(tableEHistory.getValue().geteHNight()));
+        eHPDay.setCellValueFactory(tableEHistory->new SimpleStringProperty(tableEHistory.getValue().geteHPDay()));
+        eHPNight.setCellValueFactory(tableEHistory->new SimpleStringProperty(tableEHistory.getValue().geteHPNight()));
+        eHKwtDay.setCellValueFactory(tableEHistory->new SimpleStringProperty(tableEHistory.getValue().geteHKwtDay()));
+        eHKwtNight.setCellValueFactory(tableEHistory->new SimpleStringProperty(tableEHistory.getValue().geteHKwtNight()));
+        eHTotal.setCellValueFactory(tableEHistory-> new SimpleStringProperty(tableEHistory.getValue().geteHTotal()));
+        id.setStyle("-fx-alignment: CENTER;");
+        eHDate.setStyle("-fx-alignment: CENTER;");
+        eHDay.setStyle("-fx-alignment: CENTER-RIGHT;");
+        eHNight.setStyle("-fx-alignment: CENTER-RIGHT;");
+        eHPDay.setStyle("-fx-alignment: CENTER-RIGHT;");
+        eHPNight.setStyle("-fx-alignment: CENTER-RIGHT;");
+        eHKwtDay.setStyle("-fx-alignment: CENTER-RIGHT;");
+        eHKwtNight.setStyle("-fx-alignment: CENTER-RIGHT;");
+        eHTotal.setStyle("-fx-alignment: CENTER-RIGHT;");
+    }
+
+    private void initWTable(){
+        wtId.setCellValueFactory(tableWHistory->new SimpleObjectProperty<>(tableWHistory.getValue().getWtId()));
+        wtDate.setCellValueFactory(tableWHistory->new SimpleStringProperty(tableWHistory.getValue().getWtDate()));
+        wValue.setCellValueFactory(tableWHistory->new SimpleStringProperty(tableWHistory.getValue().getWtValue()));
+        wtPrice.setCellValueFactory(tableWHistory->new SimpleStringProperty(tableWHistory.getValue().getWtPrice()));
+        wtM3.setCellValueFactory(tableWHistory->new SimpleStringProperty(tableWHistory.getValue().getWtM3()));
+        wtTotal.setCellValueFactory(tableWHistory->new SimpleStringProperty(tableWHistory.getValue().getWtTotal()));
+        wtId.setStyle("-fx-alignment: CENTER;");
+        wtDate.setStyle("-fx-alignment: CENTER;");
+        wValue.setStyle("-fx-alignment: CENTER-RIGHT;");
+        wtPrice.setStyle("-fx-alignment: CENTER-RIGHT;");
+        wtM3.setStyle("-fx-alignment: CENTER-RIGHT;");
+        wtTotal.setStyle("-fx-alignment: CENTER-RIGHT;");
+    }
+
+    private void initFirstValues(){
+        eDate.setConverter(DateUtils.getStringConverter());
+        eDate.setPromptText("dd.MM.yyyy");
+        eDate.setValue(LocalDate.now());
+        wDate.setConverter(DateUtils.getStringConverter());
+        wDate.setPromptText("dd.MM.yyyy");
+        wDate.setValue(LocalDate.now());
+    }
+
+    private void initDatas(){
+        Date date = Date.valueOf(LocalDate.now());
+        //Personal account.
+        initASettingsByDate(date);
+        //Electricity.
+        initESettingsByDate(date);
+        //Water.
+        initWSettingsByDate(date);
+    }
+
+    private void initESettingsByDate(Date date){
+        ePriceDay.setText("0");
+        ePriceNight.setText("0");
+        Answer answ = DataBaseUtility.getSettingsFirstValueByDateView(date,1);
+        if (answ.answ == Answers.ERROR){
+            InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error get electricity settings",answ.description + "\n You need reopen application");
+        }else {
+            List<Entities> list = answ.list;
+            if (list.size() > 0) {
+                SettingsEntity settings = (SettingsEntity) list.get(0);
+                ePriceDay.setText(settings.getVal1());
+                ePriceNight.setText(settings.getVal2());
+            }
+        }
+    }
+
+    private void initWSettingsByDate(Date date){
+        wPrice.setText("0");
+        Answer answ = DataBaseUtility.getSettingsFirstValueByDateView(date,2);
+        if (answ.answ == Answers.ERROR){
+            InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error get water settings",answ.description + "\n You need reopen application");
+        }else {
+            List<Entities> list = answ.list;
+            if (list.size() > 0) {
+                SettingsEntity settings = (SettingsEntity) list.get(0);
+                wPrice.setText(settings.getVal1());
+            }
+        }
+    }
+
+    private void initASettingsByDate(Date date){
+        Answer answ = DataBaseUtility.getSettingsFirstValueByDateView(date,3);
+        if (answ.answ == Answers.ERROR){
+            InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error get personal account settings",answ.description + "\n You need reopen application");
+        }else{
+            List<Entities> list = answ.list;
+            if (list.size() > 0) {
+                SettingsEntity settings = (SettingsEntity) list.get(0);
+                lblAccount.setText(settings.getVal1());
+            }
+        }
     }
 
     private void initView(){
@@ -118,15 +311,74 @@ public class MainController {
     }
 
     public void clickEDate(ActionEvent actionEvent) {
+        Date date = Date.valueOf(eDate.getValue());
+        if (date != null){
+            initTables();
+            initLateEPaymentValues();
+            initESettingsByDate(date);
+        }
     }
 
     public void eDayKeyTyped(KeyEvent keyEvent) {
+
     }
 
-    public void eNightKeyTyped(KeyEvent keyEvent) {
+    public void eDayKeyReleased(KeyEvent keyEvent) {
+        FormUtility.onlyNumbers(fEDayCurValue);
+        double ePDay = FormUtility.parseDouble(ePriceDay.getText());
+        if (ePDay > 0D){
+            double ePrevVal = FormUtility.parseDouble(eDayPrevValue.getText());
+            double eCurVal = FormUtility.parseDouble(fEDayCurValue.getText());
+            double totalD = eCurVal - ePrevVal;
+            eDayCurValueKwt.setText(df.format(totalD));
+            eDayCostValue.setText(df.format(totalD*ePDay));
+            calcETotal();
+        }
+    }
+
+    public void calcETotal(){
+        double total = FormUtility.parseDouble(eDayCostValue.getText()) +
+                FormUtility.parseDouble(eNightCostValue.getText());
+        eTotalPayment.setText(df.format(total));
+    }
+
+    public void eNightKeyReleased(KeyEvent keyEvent) {
+        FormUtility.onlyNumbers(fENightCurValue);
+        double ePNight = FormUtility.parseDouble(ePriceNight.getText());
+        if (ePNight > 0D){
+            double ePrevVal = FormUtility.parseDouble(eNightPrevValue.getText());
+            double eCurVal = FormUtility.parseDouble(fENightCurValue.getText());
+            double totalN = eCurVal - ePrevVal;
+            eNightCurValueKwt.setText(df.format(totalN));
+            eNightCostValue.setText(df.format(totalN*ePNight));
+            calcETotal();
+        }
     }
 
     public void clickEPayment(ActionEvent actionEvent) {
+        PaymentsEntity[] payment = new PaymentsEntity[1];
+        payment[0] = new PaymentsEntity();
+        payment[0].setDate(Date.valueOf(eDate.getValue()));
+        payment[0].setViewId(1);
+        payment[0].setDataId(0);
+        payment[0].setrVal1(fEDayCurValue.getText());
+        payment[0].setrVal2(fENightCurValue.getText());
+        payment[0].setpVal1(ePriceDay.getText());
+        payment[0].setpVal2(ePriceNight.getText());
+        payment[0].setVal1(eDayCurValueKwt.getText());
+        payment[0].setVal2(eNightCurValueKwt.getText());
+        Answer answ = DataBaseUtility.saveEntity(payment);
+        if (answ.answ == Answers.ERROR){
+            InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error save payments",answ.description + "\n Error save payments");
+        }else {
+            History.initEPaymentHistory(tableEHistory,tableEPayments);
+            fEDayCurValue.setText("0");
+            fENightCurValue.setText("0");
+            eDayCurValueKwt.setText(".00");
+            eNightCurValueKwt.setText(".00");
+            eDayCostValue.setText(".00");
+            eNightCostValue.setText(".00");
+        }
     }
 
     public void clickEFile(ActionEvent actionEvent) {
@@ -136,13 +388,117 @@ public class MainController {
     }
 
     public void clickWDate(Event event) {
-    }
-
-    public void wValueKeyTyped(KeyEvent keyEvent) {
+        Date date = Date.valueOf(wDate.getValue());
+        if (date != null){
+            initWSettingsByDate(date);
+            initLateWPaymentValues();
+        }
     }
 
     private void close(){
         Stage s = (Stage) bEPayment.getScene().getWindow();
         s.close();
+    }
+
+    public void clickRemoveEHistory(MouseEvent mouseEvent) {
+        EHTable row = tableEPayments.getSelectionModel().getSelectedItem();
+        if (row != null){
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete history");
+            alert.setHeaderText("Delete row history");
+            alert.setContentText("The history row will be deleted! Continue ?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                PaymentsEntity entity = new PaymentsEntity();
+                entity.setId(row.getId());
+                entity.setDataId(0);
+                entity.setViewId(1);
+                entity.setVal1(row.geteHDay());
+                entity.setVal2(row.geteHNight());
+                entity.setpVal1(row.geteHPDay());
+                entity.setpVal2(row.geteHPNight());
+                entity.setrVal1(row.geteHKwtDay());
+                entity.setrVal2(row.geteHKwtNight());
+                Answer answ = DataBaseUtility.delete(entity);
+                if (answ.answ == Answers.ERROR){
+                    InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error delete history",answ.description + "\n Error delete history");
+                }else{
+                    initLateEPaymentValues();
+                    History.initEPaymentHistory(tableEHistory, tableEPayments);
+                }
+            }
+        }
+    }
+
+    public void wValueKeyReleased(KeyEvent keyEvent) {
+        FormUtility.onlyNumbers(wCurValue);
+        double price = FormUtility.parseDouble(wPrice.getText());
+        if (price > 0D){
+            double prevVal = FormUtility.parseDouble(wPrevVal.getText());
+            double curVal = FormUtility.parseDouble(wCurValue.getText());
+            double curValM3 = curVal - prevVal;
+            wCurValueM3.setText(df.format(curValM3));
+            wCurCost.setText(df.format(curValM3*price));
+            calcWTotal();
+        }
+    }
+
+    public void calcWTotal(){
+        wTotal.setText(wCurCost.getText());
+    }
+
+    public void clickWPayment(ActionEvent event) {
+        PaymentsEntity[] payment = new PaymentsEntity[1];
+        payment[0] = new PaymentsEntity();
+        payment[0].setDate(Date.valueOf(wDate.getValue()));
+        payment[0].setViewId(2);
+        payment[0].setDataId(0);
+        payment[0].setrVal1(wCurValue.getText());
+        payment[0].setrVal2("0");
+        payment[0].setpVal1(wPrice.getText());
+        payment[0].setpVal2("0");
+        payment[0].setVal1(wCurValueM3.getText());
+        payment[0].setVal2("0");
+        Answer answ = DataBaseUtility.saveEntity(payment);
+        if (answ.answ == Answers.ERROR){
+            InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error save payments",answ.description + "\n Error save payments");
+        }else {
+            History.initWPaymentHistory(tableWHistory,tableWPayment);
+            wCurValue.setText("0");
+            wCurCost.setText(".00");
+            wCurValueM3.setText(".00");
+        }
+    }
+
+    public void clickWRemoveHistory(MouseEvent mouseEvent) {
+        WHTable row = tableWPayment.getSelectionModel().getSelectedItem();
+        if (row != null){
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Delete history");
+            alert.setHeaderText("Delete row history");
+            alert.setContentText("The history row will be deleted! Continue ?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                PaymentsEntity entity = new PaymentsEntity();
+                entity.setId(row.getWtId());
+                entity.setDataId(0);
+                entity.setViewId(2);
+                entity.setVal1(row.getWtM3());
+                entity.setVal2("0");
+                entity.setpVal1(row.getWtPrice());
+                entity.setpVal2("0");
+                entity.setrVal1(row.getWtValue());
+                entity.setrVal2("0");
+                Answer answ = DataBaseUtility.delete(entity);
+                if (answ.answ == Answers.ERROR){
+                    InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error delete history",answ.description + "\n Error delete history");
+                }else{
+                    initLateWPaymentValues();
+                    History.initWPaymentHistory(tableWHistory, tableWPayment);
+                }
+            }
+        }
     }
 }

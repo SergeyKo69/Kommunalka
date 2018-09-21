@@ -1,11 +1,12 @@
 package ru.macrohome.client;
 
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import ru.macrohome.common.*;
@@ -15,20 +16,20 @@ import java.sql.Date;
 
 public class HElectricityController {
 
-    private ObservableList<SettingsEntity> tableSettings = FXCollections.observableArrayList();
+    private ObservableList<HistoryTable> tableSettings = FXCollections.observableArrayList();
 
     @FXML
     public Button bDel;
     @FXML
     public TableView tTableHistory;
     @FXML
-    public TableColumn<SettingsEntity, Integer> id;
+    public TableColumn<HistoryTable, Integer> id;
     @FXML
-    public TableColumn<SettingsEntity, Date> date;
+    public TableColumn<HistoryTable, String> date;
     @FXML
-    public TableColumn<SettingsEntity, String> day;
+    public TableColumn<HistoryTable, String> day;
     @FXML
-    public TableColumn<SettingsEntity, String> night;
+    public TableColumn<HistoryTable, String> night;
     @FXML
     public Button bClose;
 
@@ -39,10 +40,14 @@ public class HElectricityController {
     }
 
     private void initTable(){
-        id.setCellValueFactory(new PropertyValueFactory<SettingsEntity, Integer>("id"));
-        date.setCellValueFactory(new PropertyValueFactory<SettingsEntity, Date>("date"));
-        day.setCellValueFactory(new PropertyValueFactory<SettingsEntity, String>("val1"));
-        night.setCellValueFactory(new PropertyValueFactory<SettingsEntity, String>("val2"));
+        id.setCellValueFactory(tableSettings->new SimpleObjectProperty<>(tableSettings.getValue().getId()));
+        date.setCellValueFactory(tableSettings->new SimpleStringProperty(tableSettings.getValue().getDate()));
+        day.setCellValueFactory(tableSettings->new SimpleStringProperty(tableSettings.getValue().getVal1()));
+        night.setCellValueFactory(tableSettings->new SimpleStringProperty(tableSettings.getValue().getVal2()));
+        id.setStyle("-fx-alignment: CENTER;");
+        date.setStyle("-fx-alignment: CENTER;");
+        day.setStyle("-fx-alignment: CENTER-RIGHT;");
+        night.setStyle("-fx-alignment: CENTER-RIGHT;");
     }
 
     private void initHistory(){

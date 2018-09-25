@@ -65,6 +65,10 @@ public class History {
             PaymentsEntity settings = (PaymentsEntity) answ.list.get(i);
             rowTable = new EHTable();
             rowTable.setId(settings.getId());
+            rowTable.setDataId(settings.getDataId());
+            if (settings.getDataId() > 0) {
+                rowTable.setImage();
+            }
             rowTable.setDate(DateUtils.getDateInFormated(settings.getDate()));
             rowTable.seteHDay(settings.getrVal1());
             rowTable.seteHNight(settings.getrVal2());
@@ -94,6 +98,10 @@ public class History {
             PaymentsEntity settings = (PaymentsEntity) answ.list.get(i);
             rowTable = new WHTable();
             rowTable.setWtId(settings.getId());
+            rowTable.setWtDataId(settings.getDataId());
+            if (settings.getDataId() > 0) {
+                rowTable.setImage();
+            }
             rowTable.setWtDate(DateUtils.getDateInFormated(settings.getDate()));
             rowTable.setWtValue(settings.getrVal1());
             rowTable.setWtPrice(settings.getpVal1());

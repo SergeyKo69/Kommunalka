@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="399.0" prefWidth="718.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.macrohome.client.MainController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="399.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.macrohome.client.MainController">
    <children>
       <HBox>
          <children>
@@ -266,7 +266,7 @@
                               </HBox>
                               <HBox alignment="TOP_RIGHT" prefHeight="38.0" prefWidth="600.0">
                                  <children>
-                                    <HBox prefHeight="100.0" prefWidth="391.0">
+                                    <HBox fx:id="lblFileName" prefHeight="100.0" prefWidth="391.0">
                                        <children>
                                           <Label text="Total payment:">
                                              <HBox.margin>
@@ -291,6 +291,11 @@
                                                 <Insets left="5.0" top="5.0" />
                                              </HBox.margin>
                                           </Button>
+                                          <Label fx:id="lblEFileName" maxWidth="150" text="none" textFill="RED">
+                                             <HBox.margin>
+                                                <Insets left="3.0" top="10.0" />
+                                             </HBox.margin>
+                                          </Label>
                                        </children>
                                     </HBox>
                                  </children>
@@ -309,8 +314,9 @@
                                     <TableView fx:id="tableEPayments" onMouseClicked="#clickEHistory" HBox.hgrow="ALWAYS">
                                       <columns>
                                         <TableColumn fx:id="id" prefWidth="43.0" text="id" />
-                                          <TableColumn fx:id="eHDate" prefWidth="102.0" text="Date" />
-                                        <TableColumn prefWidth="148.0" text="Value">
+                                          <TableColumn fx:id="eHImg" onEditStart="#clickImg" prefWidth="30.0" />
+                                          <TableColumn fx:id="eHDate" prefWidth="120.0" text="Date" />
+                                        <TableColumn prefWidth="202.0" text="Value">
                                              <columns>
                                                 <TableColumn fx:id="eHDay" prefWidth="89.0" text="Day" />
                                                 <TableColumn fx:id="eHNight" prefWidth="86.0" text="Night" />
@@ -515,26 +521,32 @@
                                                 <Insets top="5.0" />
                                              </HBox.margin>
                                           </Button>
-                                          <Button mnemonicParsing="false" text="F">
+                                          <Button fx:id="bWFile" mnemonicParsing="false" onAction="#clickWFile" text="F">
                                              <HBox.margin>
                                                 <Insets left="5.0" top="5.0" />
                                              </HBox.margin>
                                           </Button>
+                                          <Label fx:id="lblWFileName" maxWidth="150" text="none" textFill="RED">
+                                             <HBox.margin>
+                                                <Insets left="3.0" top="10.0" />
+                                             </HBox.margin>
+                                          </Label>
                                        </children>
                                     </HBox>
                                  </children>
                               </HBox>
                               <HBox prefHeight="25.0" prefWidth="590.0">
                                  <children>
-                                    <Button fx:id="bWRemovePayment" onMouseClicked="#clickWRemoveHistory" mnemonicParsing="false" text="-" />
+                                    <Button fx:id="bWRemovePayment" mnemonicParsing="false" onMouseClicked="#clickWRemoveHistory" text="-" />
                                  </children>
                               </HBox>
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <TableView fx:id="tableWPayment" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                    <TableView fx:id="tableWPayment" onMouseClicked="#clickWHistory" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                       <columns>
                                         <TableColumn fx:id="wtId" prefWidth="56.0" text="id" />
-                                          <TableColumn fx:id="wtDate" prefWidth="132.0" text="Date" />
+                                          <TableColumn fx:id="wtImg" onEditStart="#cliclWImg" prefWidth="37.0" />
+                                          <TableColumn fx:id="wtDate" prefWidth="170.0" text="Date" />
                                         <TableColumn fx:id="wValue" prefWidth="169.0" text="Value" />
                                           <TableColumn fx:id="wtPrice" prefWidth="89.0" text="Price" />
                                           <TableColumn fx:id="wtM3" prefWidth="120.0" text="M3" />

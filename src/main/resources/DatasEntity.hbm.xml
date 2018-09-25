@@ -12,7 +12,7 @@
             <column name="name" sql-type="varchar(100)" length="100" not-null="true"/>
         </property>
         <property name="data">
-            <column name="data" sql-type="binary" not-null="true"/>
+            <column name="data" sql-type="binary" not-null="false"/>
         </property>
     </class>
 </hibernate-mapping>

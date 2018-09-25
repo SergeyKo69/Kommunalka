@@ -14,7 +14,7 @@ public class Main extends Application {
         this.primaryStage = primaryStage;
         Parent root = FXMLLoader.load(getClass().getResource("/payments_MainForm.fxml"));
         primaryStage.setTitle("Kommunalka");
-        primaryStage.setScene(new Scene(root, 730, 400));
+        primaryStage.setScene(new Scene(root, 775, 400));
         primaryStage.show();
     }
 

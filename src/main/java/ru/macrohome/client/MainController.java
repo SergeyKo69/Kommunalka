@@ -2,7 +2,6 @@ package ru.macrohome.client;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,17 +12,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.InputMethodEvent;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.macrohome.common.*;
+import ru.macrohome.entity.DatasEntity;
 import ru.macrohome.entity.PaymentsEntity;
 import ru.macrohome.entity.SettingsEntity;
 import ru.macrohome.entity.ViewsEntity;
 import ru.macrohome.server.DataBaseUtility;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.DecimalFormat;
@@ -32,9 +33,14 @@ import java.util.List;
 import java.util.Optional;
 
 public class MainController {
+
     private ObservableList<EHTable> tableEHistory = FXCollections.observableArrayList();
     private ObservableList<WHTable> tableWHistory = FXCollections.observableArrayList();
     public DecimalFormat df = new DecimalFormat("#.00");
+    private final String DESCRIPTION_FILE = "PDF files (*.pdf)";
+    private final String EXTENSIONS_FILE = "*.pdf";
+    private File eFile;
+    private File wFile;
 
     @FXML
     public Label ePriceDay;
@@ -68,6 +74,8 @@ public class MainController {
     public TableView<EHTable> tableEPayments;
     @FXML
     public TableColumn<EHTable, Integer> id;
+    @FXML
+    public TableColumn<EHTable, ImageView> eHImg;
     @FXML
     public TableColumn<EHTable, String> eHDate;
     @FXML
@@ -111,6 +119,8 @@ public class MainController {
     @FXML
     public TableColumn<WHTable, Integer> wtId;
     @FXML
+    public TableColumn<WHTable, ImageView> wtImg;
+    @FXML
     public TableColumn<WHTable, String> wtDate;
     @FXML
     public TableColumn<WHTable, String> wValue;
@@ -122,6 +132,10 @@ public class MainController {
     public TableColumn<WHTable, String> wtTotal;
     @FXML
     public Label wTotal;
+    @FXML
+    public Label lblEFileName;
+    @FXML
+    public Label lblWFileName;
 
     @FXML
     public void initialize(){
@@ -177,6 +191,7 @@ public class MainController {
     private void initETable() {
         id.setCellValueFactory(new PropertyValueFactory<EHTable, Integer>("id"));
         eHDate.setCellValueFactory(tableEHistory->new SimpleStringProperty(tableEHistory.getValue().getDate()));
+        eHImg.setCellValueFactory(tableEHistory->new SimpleObjectProperty<>(tableEHistory.getValue().getImageView()));
         eHDay.setCellValueFactory(tableEHistory->new SimpleStringProperty(tableEHistory.getValue().geteHDay()));
         eHNight.setCellValueFactory(tableEHistory->new SimpleStringProperty(tableEHistory.getValue().geteHNight()));
         eHPDay.setCellValueFactory(tableEHistory->new SimpleStringProperty(tableEHistory.getValue().geteHPDay()));
@@ -185,6 +200,7 @@ public class MainController {
         eHKwtNight.setCellValueFactory(tableEHistory->new SimpleStringProperty(tableEHistory.getValue().geteHKwtNight()));
         eHTotal.setCellValueFactory(tableEHistory-> new SimpleStringProperty(tableEHistory.getValue().geteHTotal()));
         id.setStyle("-fx-alignment: CENTER;");
+        eHImg.setStyle("-fx-alignment: CENTER;");
         eHDate.setStyle("-fx-alignment: CENTER;");
         eHDay.setStyle("-fx-alignment: CENTER-RIGHT;");
         eHNight.setStyle("-fx-alignment: CENTER-RIGHT;");
@@ -197,12 +213,14 @@ public class MainController {
 
     private void initWTable(){
         wtId.setCellValueFactory(tableWHistory->new SimpleObjectProperty<>(tableWHistory.getValue().getWtId()));
+        wtImg.setCellValueFactory(tableWHistory->new SimpleObjectProperty<>(tableWHistory.getValue().getImageView()));
         wtDate.setCellValueFactory(tableWHistory->new SimpleStringProperty(tableWHistory.getValue().getWtDate()));
         wValue.setCellValueFactory(tableWHistory->new SimpleStringProperty(tableWHistory.getValue().getWtValue()));
         wtPrice.setCellValueFactory(tableWHistory->new SimpleStringProperty(tableWHistory.getValue().getWtPrice()));
         wtM3.setCellValueFactory(tableWHistory->new SimpleStringProperty(tableWHistory.getValue().getWtM3()));
         wtTotal.setCellValueFactory(tableWHistory->new SimpleStringProperty(tableWHistory.getValue().getWtTotal()));
         wtId.setStyle("-fx-alignment: CENTER;");
+        wtImg.setStyle("-fx-alignment: CENTER;");
         wtDate.setStyle("-fx-alignment: CENTER;");
         wValue.setStyle("-fx-alignment: CENTER-RIGHT;");
         wtPrice.setStyle("-fx-alignment: CENTER-RIGHT;");
@@ -356,35 +374,67 @@ public class MainController {
     }
 
     public void clickEPayment(ActionEvent actionEvent) {
-        PaymentsEntity[] payment = new PaymentsEntity[1];
-        payment[0] = new PaymentsEntity();
-        payment[0].setDate(Date.valueOf(eDate.getValue()));
-        payment[0].setViewId(1);
-        payment[0].setDataId(0);
-        payment[0].setrVal1(fEDayCurValue.getText());
-        payment[0].setrVal2(fENightCurValue.getText());
-        payment[0].setpVal1(ePriceDay.getText());
-        payment[0].setpVal2(ePriceNight.getText());
-        payment[0].setVal1(eDayCurValueKwt.getText());
-        payment[0].setVal2(eNightCurValueKwt.getText());
-        Answer answ = DataBaseUtility.saveEntity(payment);
-        if (answ.answ == Answers.ERROR){
-            InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error save payments",answ.description + "\n Error save payments");
-        }else {
-            History.initEPaymentHistory(tableEHistory,tableEPayments);
-            fEDayCurValue.setText("0");
-            fENightCurValue.setText("0");
-            eDayCurValueKwt.setText(".00");
-            eNightCurValueKwt.setText(".00");
-            eDayCostValue.setText(".00");
-            eNightCostValue.setText(".00");
+        int id_data;
+        if (eFile != null){
+            id_data = DataBaseUtility.saveFile(eFile);
+        }else{
+            id_data = 0;
+        }
+        if (eFile == null || (eFile != null && id_data > 0)) {
+            PaymentsEntity[] payment = new PaymentsEntity[1];
+            payment[0] = new PaymentsEntity();
+            payment[0].setDate(Date.valueOf(eDate.getValue()));
+            payment[0].setViewId(1);
+            payment[0].setDataId(id_data);
+            payment[0].setrVal1(fEDayCurValue.getText());
+            payment[0].setrVal2(fENightCurValue.getText());
+            payment[0].setpVal1(ePriceDay.getText());
+            payment[0].setpVal2(ePriceNight.getText());
+            payment[0].setVal1(eDayCurValueKwt.getText());
+            payment[0].setVal2(eNightCurValueKwt.getText());
+            Answer answ = DataBaseUtility.saveEntity(payment);
+            if (answ.answ == Answers.ERROR) {
+                InterfaceBoxes.showMessage(Alert.AlertType.ERROR, "Error save payments", answ.description + "\n Error save payments");
+            } else {
+                History.initEPaymentHistory(tableEHistory, tableEPayments);
+                initLateEPaymentValues();
+                fEDayCurValue.setText("0");
+                fENightCurValue.setText("0");
+                eDayCurValueKwt.setText(".00");
+                eNightCurValueKwt.setText(".00");
+                eDayCostValue.setText(".00");
+                eNightCostValue.setText(".00");
+                lblEFileName.setText("none");
+                lblEFileName.setStyle("-fx-text-fill: red");
+            }
         }
     }
 
     public void clickEFile(ActionEvent actionEvent) {
+        eFile = InterfaceBoxes.chooseFile(Main.primaryStage,DESCRIPTION_FILE, EXTENSIONS_FILE);
+        if (eFile != null) {
+            lblEFileName.setText(eFile.getName());
+            lblEFileName.setStyle("-fx-text-fill: green");
+        }
     }
 
     public void clickEHistory(MouseEvent mouseEvent) {
+        EHTable row = tableEPayments.getSelectionModel().getSelectedItem();
+        if (row != null && mouseEvent.getClickCount() == 2) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/e_payment_card_form.fxml"));
+            Parent root = null;
+            try {
+                root = (Parent) fxmlLoader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            EPaymentCardController controller = fxmlLoader.getController();
+            controller.initForm(row);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        }
     }
 
     public void clickWDate(Event event) {
@@ -400,6 +450,13 @@ public class MainController {
         s.close();
     }
 
+    private Answer deleteFile(int id){
+        DatasEntity data = new DatasEntity();
+        data.setId(id);
+        data.setName("");
+        return DataBaseUtility.delete(data);
+    }
+
     public void clickRemoveEHistory(MouseEvent mouseEvent) {
         EHTable row = tableEPayments.getSelectionModel().getSelectedItem();
         if (row != null){
@@ -407,12 +464,20 @@ public class MainController {
             alert.setTitle("Delete history");
             alert.setHeaderText("Delete row history");
             alert.setContentText("The history row will be deleted! Continue ?");
-
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
+                Answer answ = null;
+                if (row.getDataId() > 0) {
+                    answ = deleteFile(row.getDataId());
+                    if (answ.answ == Answers.ERROR) {
+                        InterfaceBoxes.showMessage(Alert.AlertType.ERROR, "Error delete history", answ.description +
+                                "\n Error delete history");
+                        return;
+                    }
+                }
                 PaymentsEntity entity = new PaymentsEntity();
                 entity.setId(row.getId());
-                entity.setDataId(0);
+                entity.setDataId(row.getDataId());
                 entity.setViewId(1);
                 entity.setVal1(row.geteHDay());
                 entity.setVal2(row.geteHNight());
@@ -420,9 +485,10 @@ public class MainController {
                 entity.setpVal2(row.geteHPNight());
                 entity.setrVal1(row.geteHKwtDay());
                 entity.setrVal2(row.geteHKwtNight());
-                Answer answ = DataBaseUtility.delete(entity);
+                answ = DataBaseUtility.delete(entity);
                 if (answ.answ == Answers.ERROR){
-                    InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error delete history",answ.description + "\n Error delete history");
+                    InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error delete history",answ.description +
+                            "\n Error delete history");
                 }else{
                     initLateEPaymentValues();
                     History.initEPaymentHistory(tableEHistory, tableEPayments);
@@ -449,25 +515,36 @@ public class MainController {
     }
 
     public void clickWPayment(ActionEvent event) {
-        PaymentsEntity[] payment = new PaymentsEntity[1];
-        payment[0] = new PaymentsEntity();
-        payment[0].setDate(Date.valueOf(wDate.getValue()));
-        payment[0].setViewId(2);
-        payment[0].setDataId(0);
-        payment[0].setrVal1(wCurValue.getText());
-        payment[0].setrVal2("0");
-        payment[0].setpVal1(wPrice.getText());
-        payment[0].setpVal2("0");
-        payment[0].setVal1(wCurValueM3.getText());
-        payment[0].setVal2("0");
-        Answer answ = DataBaseUtility.saveEntity(payment);
-        if (answ.answ == Answers.ERROR){
-            InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error save payments",answ.description + "\n Error save payments");
-        }else {
-            History.initWPaymentHistory(tableWHistory,tableWPayment);
-            wCurValue.setText("0");
-            wCurCost.setText(".00");
-            wCurValueM3.setText(".00");
+        int id_data;
+        if (wFile != null){
+            id_data = DataBaseUtility.saveFile(wFile);
+        }else{
+            id_data = 0;
+        }
+        if (wFile == null || (wFile != null && id_data > 0)) {
+            PaymentsEntity[] payment = new PaymentsEntity[1];
+            payment[0] = new PaymentsEntity();
+            payment[0].setDate(Date.valueOf(wDate.getValue()));
+            payment[0].setViewId(2);
+            payment[0].setDataId(0);
+            payment[0].setrVal1(wCurValue.getText());
+            payment[0].setrVal2("0");
+            payment[0].setpVal1(wPrice.getText());
+            payment[0].setpVal2("0");
+            payment[0].setVal1(wCurValueM3.getText());
+            payment[0].setVal2("0");
+            Answer answ = DataBaseUtility.saveEntity(payment);
+            if (answ.answ == Answers.ERROR) {
+                InterfaceBoxes.showMessage(Alert.AlertType.ERROR, "Error save payments", answ.description + "\n Error save payments");
+            } else {
+                History.initWPaymentHistory(tableWHistory, tableWPayment);
+                initLateWPaymentValues();
+                wCurValue.setText("0");
+                wCurCost.setText(".00");
+                wCurValueM3.setText(".00");
+                lblWFileName.setText("none");
+                lblWFileName.setStyle("-fx-text-fill: red");
+            }
         }
     }
 
@@ -481,6 +558,15 @@ public class MainController {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
+                Answer answ = null;
+                if (row.getWtDataId() > 0) {
+                    answ = deleteFile(row.getWtDataId());
+                    if (answ.answ == Answers.ERROR) {
+                        InterfaceBoxes.showMessage(Alert.AlertType.ERROR, "Error delete history", answ.description +
+                                "\n Error delete history");
+                        return;
+                    }
+                }
                 PaymentsEntity entity = new PaymentsEntity();
                 entity.setId(row.getWtId());
                 entity.setDataId(0);
@@ -491,7 +577,7 @@ public class MainController {
                 entity.setpVal2("0");
                 entity.setrVal1(row.getWtValue());
                 entity.setrVal2("0");
-                Answer answ = DataBaseUtility.delete(entity);
+                answ = DataBaseUtility.delete(entity);
                 if (answ.answ == Answers.ERROR){
                     InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error delete history",answ.description + "\n Error delete history");
                 }else{
@@ -499,6 +585,41 @@ public class MainController {
                     History.initWPaymentHistory(tableWHistory, tableWPayment);
                 }
             }
+        }
+    }
+
+    public void clickWHistory(MouseEvent mouseEvent) {
+        WHTable row = tableWPayment.getSelectionModel().getSelectedItem();
+        if (row != null && mouseEvent.getClickCount() == 2) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/w_payment_card_form.fxml"));
+            Parent root = null;
+            try {
+                root = (Parent) fxmlLoader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            WPaymentCardController controller = fxmlLoader.getController();
+            controller.initForm(row);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        }
+    }
+
+    public void clickImg(TableColumn.CellEditEvent<EHTable, ImageView> cellEditEvent) {
+
+    }
+
+    public void cliclWImg(TableColumn.CellEditEvent<WHTable, ImageView> whTableImageViewCellEditEvent) {
+
+    }
+
+    public void clickWFile(ActionEvent event) {
+        wFile = InterfaceBoxes.chooseFile(Main.primaryStage,DESCRIPTION_FILE, EXTENSIONS_FILE);
+           if (wFile != null) {
+            lblWFileName.setText(wFile.getName());
+            lblWFileName.setStyle("-fx-text-fill: green");
         }
     }
 }

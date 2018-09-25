@@ -1,14 +1,19 @@
 package ru.macrohome.server;
 
+import javafx.scene.control.Alert;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import ru.macrohome.common.*;
+import ru.macrohome.entity.DatasEntity;
 import ru.macrohome.entity.PaymentsEntity;
 import ru.macrohome.entity.SettingsEntity;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -67,7 +72,7 @@ public class DataBaseUtility {
             session = sessionFactory.openSession();
             List<Entities> list = null;
             Query query = session.createQuery("FROM SettingsEntity WHERE " +
-                    "date <= :date AND viewId = :viewId ORDER BY date DESC", SettingsEntity.class)
+                    "date <= :date AND viewId = :viewId ORDER BY date DESC, id DESC", SettingsEntity.class)
                     .setParameter("date", date)
                     .setParameter("viewId", id_view)
                     .setFirstResult(0)
@@ -95,7 +100,7 @@ public class DataBaseUtility {
             session = sessionFactory.openSession();
             List<Entities> list = null;
             Query query = session.createQuery("FROM PaymentsEntity WHERE " +
-                    "date <= :date AND viewId = :viewId ORDER BY date DESC", PaymentsEntity.class)
+                    "date <= :date AND viewId = :viewId ORDER BY date DESC, id DESC", PaymentsEntity.class)
                     .setParameter("date", date)
                     .setParameter("viewId", id_view)
                     .setFirstResult(0)
@@ -218,4 +223,27 @@ public class DataBaseUtility {
         }
         return new Answer(Answers.OK);
     }
+
+    public static int saveFile(File file){
+        byte[] fileData = new byte[(int) file.length()];
+        try {
+            FileInputStream fileInputStream = new FileInputStream(file);
+            fileInputStream.read(fileData);
+            fileInputStream.close();
+        } catch (IOException e) {
+            InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error save file",e.getMessage());
+            return 0;
+        }
+        DatasEntity[] entity = new DatasEntity[1];
+        entity[0] = new DatasEntity();
+        entity[0].setName(file.getName());
+        entity[0].setData(fileData);
+        Answer answ = saveEntity(entity);
+        if (answ.answ == Answers.ERROR){
+            InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error save file", answ.description);
+            return 0;
+        }
+        return entity[0].getId();
+    }
+
 }

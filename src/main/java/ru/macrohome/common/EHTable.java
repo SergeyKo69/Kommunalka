@@ -1,8 +1,7 @@
 package ru.macrohome.common;
 
-import javafx.beans.property.StringProperty;
-
-import java.sql.Date;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class EHTable {
     private Integer id;
@@ -15,6 +14,7 @@ public class EHTable {
     private String eHKwtNight;
     private String eHTotal;
     private Integer dataId;
+    private ImageView imageView;
 
     public EHTable() {
     }
@@ -97,6 +97,18 @@ public class EHTable {
 
     public void seteHTotal(String eHTotal) {
         this.eHTotal = eHTotal;
+    }
+
+    public ImageView getImageView() {
+        return imageView;
+    }
+
+    public void setImage(){
+        setImageView(new ImageView(new Image("./images/skrepka.jpg")));
+    }
+
+    public void setImageView(ImageView imageView) {
+        this.imageView = imageView;
     }
 }
 

@@ -2,13 +2,23 @@ package ru.macrohome.common;
 
 
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import ru.macrohome.client.PDFViewController;
+import ru.macrohome.entity.DatasEntity;
 import ru.macrohome.entity.PaymentsEntity;
 import ru.macrohome.entity.SettingsEntity;
 import ru.macrohome.server.DataBaseUtility;
 
+import java.io.IOException;
 import java.util.Optional;
 
 public class History {
@@ -111,5 +121,39 @@ public class History {
             tableHistory.add(rowTable);
         }
         tTablePayment.setItems(tableHistory);
+    }
+
+    public static void openPDF(int data_id){
+        Condition[] condition = new Condition[1];
+        condition[0] = new Condition("id", String.valueOf(data_id));
+        Answer answ = DataBaseUtility.getList(Tables.DATAS, condition);
+        if (answ.answ == Answers.ERROR) {
+            InterfaceBoxes.showMessage(Alert.AlertType.ERROR, "Error database",
+                    "Error database \n" + answ.description);
+            return;
+        }else{
+            if (answ.list.size() > 0){
+                DatasEntity entity = (DatasEntity) answ.list.get(0);
+                FXMLLoader fxmlLoader = new FXMLLoader(History.class.getResource("/pdfviewer_form.fxml"));
+                Parent root = null;
+                try {
+                    root = fxmlLoader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                PDFViewController controller = fxmlLoader.getController();
+                controller.openByteArray(entity.getData());
+                stage.addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, new EventHandler<WindowEvent>() {
+                    @Override
+                    public void handle(WindowEvent event) {
+                        controller.beforeClosing();
+                    }
+                });
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.showAndWait();
+            }
+        }
     }
 }

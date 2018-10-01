@@ -136,6 +136,8 @@ public class MainController {
     public Label lblEFileName;
     @FXML
     public Label lblWFileName;
+    @FXML
+    public Button bWFile;
 
     @FXML
     public void initialize(){
@@ -154,7 +156,15 @@ public class MainController {
         initView();
         initETable();
         initWTable();
+        initEPaymentHistory();
+        initWPaymentHistory();
+    }
+
+    public void initEPaymentHistory(){
         History.initEPaymentHistory(tableEHistory, tableEPayments);
+    }
+
+    public void initWPaymentHistory(){
         History.initWPaymentHistory(tableWHistory, tableWPayment);
     }
 
@@ -235,6 +245,10 @@ public class MainController {
         wDate.setConverter(DateUtils.getStringConverter());
         wDate.setPromptText("dd.MM.yyyy");
         wDate.setValue(LocalDate.now());
+        bEFile.setText("");
+        bEFile.setGraphic(new ImageView("./images/skrepka.jpg"));
+        bWFile.setText("");
+        bWFile.setGraphic(new ImageView("./images/skrepka.jpg"));
     }
 
     private void initDatas(){
@@ -431,7 +445,7 @@ public class MainController {
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             EPaymentCardController controller = fxmlLoader.getController();
-            controller.initForm(row);
+            controller.initForm(this, row);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
         }
@@ -601,7 +615,7 @@ public class MainController {
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             WPaymentCardController controller = fxmlLoader.getController();
-            controller.initForm(row);
+            controller.initForm(this, row);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
         }

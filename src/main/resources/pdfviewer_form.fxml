@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="531.0" prefWidth="493.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.macrohome.client.PDFViewController">
+   <children>
+      <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="TOP_CENTER">
+               <children>
+                  <Button fx:id="bBack" mnemonicParsing="false" onAction="#clickBack" text="&lt;">
+                     <HBox.margin>
+                        <Insets right="3.0" />
+                     </HBox.margin>
+                  </Button>
+                  <TextField fx:id="fNPage" alignment="CENTER" editable="false" prefWidth="50.0" />
+                  <Button fx:id="bNext" mnemonicParsing="false" onAction="#clickNext" text="&gt;">
+                     <HBox.margin>
+                        <Insets left="3.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Label text="of:">
+                     <HBox.margin>
+                        <Insets left="3.0" right="3.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label fx:id="fCountPage" text="0">
+                     <HBox.margin>
+                        <Insets right="3.0" top="5.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox VBox.vgrow="ALWAYS">
+               <children>
+                  <ScrollPane HBox.hgrow="ALWAYS">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0">
+                           <children>
+                              <ImageView fx:id="imgView" fitHeight="452.0" fitWidth="482.0" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </ScrollPane>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" top="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="27.0" prefWidth="53.0">
+               <children>
+                  <Button fx:id="bClose" mnemonicParsing="false" onAction="#clickClose" text="Close" />
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>

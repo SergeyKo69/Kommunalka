@@ -6,568 +6,578 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="399.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.macrohome.client.MainController">
+<AnchorPane fx:id="rootForm" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="399.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.macrohome.client.MainController">
    <children>
-      <HBox>
-         <children>
-            <MenuBar HBox.hgrow="ALWAYS">
-              <menus>
-                <Menu fx:id="bFile" mnemonicParsing="false" text="File">
-                  <items>
-                    <MenuItem fx:id="bClose" mnemonicParsing="false" onAction="#clickClose" text="Close" />
-                  </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Functions">
-                  <items>
-                    <MenuItem mnemonicParsing="false" onAction="#clickSettings" text="Settings" />
-                  </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                  <items>
-                    <MenuItem mnemonicParsing="false" onAction="#clickAbout" text="About" />
-                  </items>
-                </Menu>
-              </menus>
-            </MenuBar>
-            <Label text="Personal account:">
-               <HBox.margin>
-                  <Insets right="3.0" top="5.0" />
-               </HBox.margin>
-               <font>
-                  <Font name="Arial Bold" size="13.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblAccount" text="123456" textFill="RED">
-               <HBox.margin>
-                  <Insets right="5.0" top="5.0" />
-               </HBox.margin>
-            </Label>
-         </children>
-      </HBox>
-      <HBox prefHeight="370.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
-         <children>
-            <TabPane tabClosingPolicy="UNAVAILABLE" HBox.hgrow="ALWAYS">
-              <tabs>
-                <Tab text="Electricity">
-                     <content>
-                        <VBox>
-                           <children>
-                              <HBox>
-                                 <children>
-                                    <Label text="Date:">
-                                       <HBox.margin>
-                                          <Insets left="5.0" right="3.0" top="5.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <DatePicker fx:id="eDate" onAction="#clickEDate" />
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets top="8.0" />
-                                 </VBox.margin>
-                              </HBox>
-                              <HBox alignment="TOP_RIGHT">
-                                 <children>
-                                    <Label text="Price">
-                                       <font>
-                                          <Font name="Arial Bold" size="14.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets right="10.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Label text="Day:">
-                                       <font>
-                                          <Font name="Arial Bold Italic" size="13.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets right="3.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Label fx:id="ePriceDay" text="0" textFill="RED">
-                                       <font>
-                                          <Font name="Arial Bold" size="13.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets right="5.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Label text="Night:">
-                                       <font>
-                                          <Font name="Arial Bold Italic" size="13.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets right="3.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Label fx:id="ePriceNight" text="0" textFill="RED">
-                                       <font>
-                                          <Font name="Arial Bold" size="13.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets right="5.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Label text="Currency:">
-                                       <font>
-                                          <Font name="Arial Bold Italic" size="13.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets right="3.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Label text="RUB" textFill="RED">
-                                       <font>
-                                          <Font name="Arial Bold Italic" size="13.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets right="5.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                 </children>
-                              </HBox>
-                              <HBox prefHeight="105.0" prefWidth="590.0">
-                                 <children>
-                                    <VBox>
-                                       <children>
-                                          <Label prefHeight="17.0" prefWidth="101.0" text="Previous values">
-                                             <font>
-                                                <Font name="System Bold" size="13.0" />
-                                             </font>
-                                          </Label>
-                                          <Separator prefWidth="200.0" />
-                                          <HBox>
-                                             <children>
-                                                <Label text="Day:" />
-                                                <Label fx:id="eDayPrevValue" text="0">
-                                                   <HBox.margin>
-                                                      <Insets left="15.0" />
-                                                   </HBox.margin>
-                                                </Label>
-                                             </children>
-                                             <VBox.margin>
-                                                <Insets top="5.0" />
-                                             </VBox.margin>
-                                          </HBox>
-                                          <HBox prefHeight="100.0" prefWidth="200.0">
-                                             <children>
-                                                <Label text="Night:" />
-                                                <Label fx:id="eNightPrevValue" text="0">
-                                                   <HBox.margin>
-                                                      <Insets left="5.0" />
-                                                   </HBox.margin>
-                                                </Label>
-                                             </children>
-                                          </HBox>
-                                       </children>
-                                       <HBox.margin>
-                                          <Insets top="10.0" />
-                                       </HBox.margin>
-                                    </VBox>
-                                    <VBox>
-                                       <children>
-                                          <Label text="Current values">
-                                             <VBox.margin>
-                                                <Insets top="10.0" />
-                                             </VBox.margin>
-                                          </Label>
-                                          <Separator prefWidth="200.0" />
-                                          <HBox>
-                                             <children>
-                                                <Label text="Day:">
-                                                   <HBox.margin>
-                                                      <Insets right="13.0" top="5.0" />
-                                                   </HBox.margin>
-                                                </Label>
-                                                <TextField fx:id="fEDayCurValue" alignment="CENTER_RIGHT" onKeyReleased="#eDayKeyReleased" onKeyTyped="#eDayKeyTyped" promptText="0" />
-                                                <Label text="Value:">
-                                                   <HBox.margin>
-                                                      <Insets left="10.0" top="5.0" />
-                                                   </HBox.margin>
-                                                   <font>
-                                                      <Font name="Arial Bold" size="13.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label fx:id="eDayCurValueKwt" text=".00">
-                                                   <HBox.margin>
-                                                      <Insets left="3.0" top="5.0" />
-                                                   </HBox.margin>
-                                                </Label>
-                                                <Label text="Cost:">
-                                                   <HBox.margin>
-                                                      <Insets left="5.0" top="5.0" />
-                                                   </HBox.margin>
-                                                   <font>
-                                                      <Font name="Arial Bold" size="13.0" />
-                                                   </font>
-                                                </Label>
-                                                <Label fx:id="eDayCostValue" text=".00">
-                                                   <HBox.margin>
-                                                      <Insets left="3.0" top="5.0" />
-                                                   </HBox.margin>
-                                                </Label>
-                                             </children>
-                                             <VBox.margin>
-                                                <Insets top="5.0" />
-                                             </VBox.margin>
-                                          </HBox>
-                                          <HBox>
-                                             <children>
-                                                <Label text="Night:">
-                                                   <HBox.margin>
-                                                      <Insets right="3.0" top="5.0" />
-                                                   </HBox.margin>
-                                                </Label>
-                                                <TextField fx:id="fENightCurValue" alignment="CENTER_RIGHT" onKeyReleased="#eNightKeyReleased" promptText="0" />
-                                                <Label text="Value:">
-                                                   <font>
-                                                      <Font name="Arial Bold" size="13.0" />
-                                                   </font>
-                                                   <HBox.margin>
-                                                      <Insets left="10.0" top="5.0" />
-                                                   </HBox.margin>
-                                                </Label>
-                                                <Label fx:id="eNightCurValueKwt" text=".00">
-                                                   <HBox.margin>
-                                                      <Insets left="3.0" top="5.0" />
-                                                   </HBox.margin>
-                                                </Label>
-                                                <Label text="Cost:">
-                                                   <font>
-                                                      <Font name="Arial Bold" size="13.0" />
-                                                   </font>
-                                                   <HBox.margin>
-                                                      <Insets left="5.0" top="5.0" />
-                                                   </HBox.margin>
-                                                </Label>
-                                                <Label fx:id="eNightCostValue" text=".00">
-                                                   <HBox.margin>
-                                                      <Insets left="3.0" top="5.0" />
-                                                   </HBox.margin>
-                                                </Label>
-                                             </children>
-                                             <VBox.margin>
-                                                <Insets top="3.0" />
-                                             </VBox.margin>
-                                          </HBox>
-                                       </children>
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin>
-                                    </VBox>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets left="5.0" right="5.0" />
-                                 </VBox.margin>
-                              </HBox>
-                              <HBox>
-                                 <children>
-                                    <Separator prefHeight="0.0" prefWidth="600.0" />
-                                 </children>
-                              </HBox>
-                              <HBox alignment="TOP_RIGHT" prefHeight="38.0" prefWidth="600.0">
-                                 <children>
-                                    <HBox fx:id="lblFileName" prefHeight="100.0" prefWidth="391.0">
-                                       <children>
-                                          <Label text="Total payment:">
+       <VBox fx:id="mainForm" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="399.0" prefWidth="777.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+           <children>
+               <HBox>
+                   <children>
+                       <MenuBar HBox.hgrow="ALWAYS">
+                           <menus>
+                               <Menu fx:id="bFile" mnemonicParsing="false" text="File">
+                                   <items>
+                                       <MenuItem fx:id="bClose" mnemonicParsing="false" onAction="#clickClose" text="Close" />
+                                   </items>
+                               </Menu>
+                               <Menu mnemonicParsing="false" text="Functions">
+                                   <items>
+                                       <MenuItem mnemonicParsing="false" onAction="#clickSettings" text="Settings" />
+                                   </items>
+                               </Menu>
+                               <Menu mnemonicParsing="false" text="Help">
+                                   <items>
+                                       <MenuItem mnemonicParsing="false" onAction="#clickAbout" text="About" />
+                                   </items>
+                               </Menu>
+                           </menus>
+                       </MenuBar>
+                       <Label text="Personal account:">
+                           <HBox.margin>
+                               <Insets right="3.0" top="5.0" />
+                           </HBox.margin>
+                           <font>
+                               <Font name="Arial Bold" size="13.0" />
+                           </font>
+                       </Label>
+                       <Label fx:id="lblAccount" text="123456" textFill="RED">
+                           <HBox.margin>
+                               <Insets right="5.0" top="5.0" />
+                           </HBox.margin>
+                       </Label>
+                   </children>
+               </HBox>
+               <HBox prefHeight="370.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
+                   <children>
+                       <TabPane tabClosingPolicy="UNAVAILABLE" HBox.hgrow="ALWAYS">
+                           <tabs>
+                               <Tab text="Electricity">
+                                   <content>
+                                       <VBox>
+                                           <children>
+                                               <HBox>
+                                                   <children>
+                                                       <Label text="Date:">
+                                                           <HBox.margin>
+                                                               <Insets left="5.0" right="3.0" top="5.0" />
+                                                           </HBox.margin>
+                                                       </Label>
+                                                       <DatePicker fx:id="eDate" onAction="#clickEDate" />
+                                                   </children>
+                                                   <VBox.margin>
+                                                       <Insets top="8.0" />
+                                                   </VBox.margin>
+                                               </HBox>
+                                               <HBox alignment="TOP_RIGHT">
+                                                   <children>
+                                                       <Label text="Price">
+                                                           <font>
+                                                               <Font name="Arial Bold" size="14.0" />
+                                                           </font>
+                                                           <HBox.margin>
+                                                               <Insets right="10.0" />
+                                                           </HBox.margin>
+                                                       </Label>
+                                                       <Label text="Day:">
+                                                           <font>
+                                                               <Font name="Arial Bold Italic" size="13.0" />
+                                                           </font>
+                                                           <HBox.margin>
+                                                               <Insets right="3.0" />
+                                                           </HBox.margin>
+                                                       </Label>
+                                                       <Label fx:id="ePriceDay" text="0" textFill="RED">
+                                                           <font>
+                                                               <Font name="Arial Bold" size="13.0" />
+                                                           </font>
+                                                           <HBox.margin>
+                                                               <Insets right="5.0" />
+                                                           </HBox.margin>
+                                                       </Label>
+                                                       <Label text="Night:">
+                                                           <font>
+                                                               <Font name="Arial Bold Italic" size="13.0" />
+                                                           </font>
+                                                           <HBox.margin>
+                                                               <Insets right="3.0" />
+                                                           </HBox.margin>
+                                                       </Label>
+                                                       <Label fx:id="ePriceNight" text="0" textFill="RED">
+                                                           <font>
+                                                               <Font name="Arial Bold" size="13.0" />
+                                                           </font>
+                                                           <HBox.margin>
+                                                               <Insets right="5.0" />
+                                                           </HBox.margin>
+                                                       </Label>
+                                                       <Label text="Currency:">
+                                                           <font>
+                                                               <Font name="Arial Bold Italic" size="13.0" />
+                                                           </font>
+                                                           <HBox.margin>
+                                                               <Insets right="3.0" />
+                                                           </HBox.margin>
+                                                       </Label>
+                                                       <Label text="RUB" textFill="RED">
+                                                           <font>
+                                                               <Font name="Arial Bold Italic" size="13.0" />
+                                                           </font>
+                                                           <HBox.margin>
+                                                               <Insets right="5.0" />
+                                                           </HBox.margin>
+                                                       </Label>
+                                                   </children>
+                                               </HBox>
+                                               <HBox prefHeight="105.0" prefWidth="590.0">
+                                                   <children>
+                                                       <VBox>
+                                                           <children>
+                                                               <Label prefHeight="17.0" prefWidth="101.0" text="Previous values">
+                                                                   <font>
+                                                                       <Font name="System Bold" size="13.0" />
+                                                                   </font>
+                                                               </Label>
+                                                               <Separator prefWidth="200.0" />
+                                                               <HBox>
+                                                                   <children>
+                                                                       <Label text="Day:" />
+                                                                       <Label fx:id="eDayPrevValue" text="0">
+                                                                           <HBox.margin>
+                                                                               <Insets left="15.0" />
+                                                                           </HBox.margin>
+                                                                       </Label>
+                                                                   </children>
+                                                                   <VBox.margin>
+                                                                       <Insets top="5.0" />
+                                                                   </VBox.margin>
+                                                               </HBox>
+                                                               <HBox prefHeight="100.0" prefWidth="200.0">
+                                                                   <children>
+                                                                       <Label text="Night:" />
+                                                                       <Label fx:id="eNightPrevValue" text="0">
+                                                                           <HBox.margin>
+                                                                               <Insets left="5.0" />
+                                                                           </HBox.margin>
+                                                                       </Label>
+                                                                   </children>
+                                                               </HBox>
+                                                           </children>
+                                                           <HBox.margin>
+                                                               <Insets top="10.0" />
+                                                           </HBox.margin>
+                                                       </VBox>
+                                                       <VBox>
+                                                           <children>
+                                                               <Label text="Current values">
+                                                                   <VBox.margin>
+                                                                       <Insets top="10.0" />
+                                                                   </VBox.margin>
+                                                               </Label>
+                                                               <Separator prefWidth="200.0" />
+                                                               <HBox>
+                                                                   <children>
+                                                                       <Label text="Day:">
+                                                                           <HBox.margin>
+                                                                               <Insets right="13.0" top="5.0" />
+                                                                           </HBox.margin>
+                                                                       </Label>
+                                                                       <TextField fx:id="fEDayCurValue" alignment="CENTER_RIGHT" onKeyReleased="#eDayKeyReleased" onKeyTyped="#eDayKeyTyped" promptText="0" />
+                                                                       <Label text="Value:">
+                                                                           <HBox.margin>
+                                                                               <Insets left="10.0" top="5.0" />
+                                                                           </HBox.margin>
+                                                                           <font>
+                                                                               <Font name="Arial Bold" size="13.0" />
+                                                                           </font>
+                                                                       </Label>
+                                                                       <Label fx:id="eDayCurValueKwt" text=".00">
+                                                                           <HBox.margin>
+                                                                               <Insets left="3.0" top="5.0" />
+                                                                           </HBox.margin>
+                                                                       </Label>
+                                                                       <Label text="Cost:">
+                                                                           <HBox.margin>
+                                                                               <Insets left="5.0" top="5.0" />
+                                                                           </HBox.margin>
+                                                                           <font>
+                                                                               <Font name="Arial Bold" size="13.0" />
+                                                                           </font>
+                                                                       </Label>
+                                                                       <Label fx:id="eDayCostValue" text=".00">
+                                                                           <HBox.margin>
+                                                                               <Insets left="3.0" top="5.0" />
+                                                                           </HBox.margin>
+                                                                       </Label>
+                                                                   </children>
+                                                                   <VBox.margin>
+                                                                       <Insets top="5.0" />
+                                                                   </VBox.margin>
+                                                               </HBox>
+                                                               <HBox>
+                                                                   <children>
+                                                                       <Label text="Night:">
+                                                                           <HBox.margin>
+                                                                               <Insets right="3.0" top="5.0" />
+                                                                           </HBox.margin>
+                                                                       </Label>
+                                                                       <TextField fx:id="fENightCurValue" alignment="CENTER_RIGHT" onKeyReleased="#eNightKeyReleased" promptText="0" />
+                                                                       <Label text="Value:">
+                                                                           <font>
+                                                                               <Font name="Arial Bold" size="13.0" />
+                                                                           </font>
+                                                                           <HBox.margin>
+                                                                               <Insets left="10.0" top="5.0" />
+                                                                           </HBox.margin>
+                                                                       </Label>
+                                                                       <Label fx:id="eNightCurValueKwt" text=".00">
+                                                                           <HBox.margin>
+                                                                               <Insets left="3.0" top="5.0" />
+                                                                           </HBox.margin>
+                                                                       </Label>
+                                                                       <Label text="Cost:">
+                                                                           <font>
+                                                                               <Font name="Arial Bold" size="13.0" />
+                                                                           </font>
+                                                                           <HBox.margin>
+                                                                               <Insets left="5.0" top="5.0" />
+                                                                           </HBox.margin>
+                                                                       </Label>
+                                                                       <Label fx:id="eNightCostValue" text=".00">
+                                                                           <HBox.margin>
+                                                                               <Insets left="3.0" top="5.0" />
+                                                                           </HBox.margin>
+                                                                       </Label>
+                                                                   </children>
+                                                                   <VBox.margin>
+                                                                       <Insets top="3.0" />
+                                                                   </VBox.margin>
+                                                               </HBox>
+                                                           </children>
+                                                           <HBox.margin>
+                                                               <Insets />
+                                                           </HBox.margin>
+                                                       </VBox>
+                                                   </children>
+                                                   <VBox.margin>
+                                                       <Insets left="5.0" right="5.0" />
+                                                   </VBox.margin>
+                                               </HBox>
+                                               <HBox>
+                                                   <children>
+                                                       <Separator prefHeight="0.0" prefWidth="600.0" />
+                                                   </children>
+                                               </HBox>
+                                               <HBox alignment="TOP_RIGHT" prefHeight="38.0" prefWidth="600.0">
+                                                   <children>
+                                                       <HBox fx:id="lblFileName" prefHeight="100.0" prefWidth="391.0">
+                                                           <children>
+                                                               <Label text="Total payment:">
+                                                                   <HBox.margin>
+                                                                       <Insets top="10.0" />
+                                                                   </HBox.margin>
+                                                                   <font>
+                                                                       <Font name="Arial Bold" size="13.0" />
+                                                                   </font>
+                                                               </Label>
+                                                               <Label fx:id="eTotalPayment" text="0">
+                                                                   <HBox.margin>
+                                                                       <Insets left="5.0" top="10.0" />
+                                                                   </HBox.margin>
+                                                               </Label>
+                                                               <Button fx:id="bEPayment" mnemonicParsing="false" onAction="#clickEPayment" text="Payment">
+                                                                   <HBox.margin>
+                                                                       <Insets left="10.0" top="5.0" />
+                                                                   </HBox.margin>
+                                                               </Button>
+                                                               <Button fx:id="bEFile" mnemonicParsing="false" onAction="#clickEFile" text="F">
+                                                                   <HBox.margin>
+                                                                       <Insets left="5.0" top="5.0" />
+                                                                   </HBox.margin>
+                                                               </Button>
+                                                               <Label fx:id="lblEFileName" maxWidth="150" text="none" textFill="RED">
+                                                                   <HBox.margin>
+                                                                       <Insets left="3.0" top="10.0" />
+                                                                   </HBox.margin>
+                                                               </Label>
+                                                           </children>
+                                                       </HBox>
+                                                   </children>
+                                               </HBox>
+                                               <HBox>
+                                                   <children>
+                                                       <Button fx:id="bERemovePayment" mnemonicParsing="false" onMouseClicked="#clickRemoveEHistory" text="-">
+                                                           <HBox.margin>
+                                                               <Insets left="5.0" />
+                                                           </HBox.margin>
+                                                       </Button>
+                                                   </children>
+                                               </HBox>
+                                               <HBox VBox.vgrow="ALWAYS">
+                                                   <children>
+                                                       <TableView fx:id="tableEPayments" onMouseClicked="#clickEHistory" HBox.hgrow="ALWAYS">
+                                                           <columns>
+                                                               <TableColumn fx:id="id" prefWidth="43.0" text="id" />
+                                                               <TableColumn fx:id="eHImg" onEditStart="#clickImg" prefWidth="30.0" />
+                                                               <TableColumn fx:id="eHDate" prefWidth="120.0" text="Date" />
+                                                               <TableColumn prefWidth="202.0" text="Value">
+                                                                   <columns>
+                                                                       <TableColumn fx:id="eHDay" prefWidth="89.0" text="Day" />
+                                                                       <TableColumn fx:id="eHNight" prefWidth="86.0" text="Night" />
+                                                                   </columns>
+                                                               </TableColumn>
+                                                               <TableColumn prefWidth="164.0" text="Price">
+                                                                   <columns>
+                                                                       <TableColumn fx:id="eHPDay" prefWidth="75.0" text="Day" />
+                                                                       <TableColumn fx:id="eHPNight" prefWidth="75.0" text="Night" />
+                                                                   </columns>
+                                                               </TableColumn>
+                                                               <TableColumn prefWidth="75.0" text="Kwt/h">
+                                                                   <columns>
+                                                                       <TableColumn fx:id="eHKwtDay" prefWidth="75.0" text="Day" />
+                                                                       <TableColumn fx:id="eHKwtNight" prefWidth="75.0" text="Night" />
+                                                                   </columns>
+                                                               </TableColumn>
+                                                               <TableColumn fx:id="eHTotal" prefWidth="94.0" text="Total" />
+                                                           </columns>
                                              <HBox.margin>
-                                                <Insets top="10.0" />
+                                                <Insets bottom="5.0" />
                                              </HBox.margin>
-                                             <font>
-                                                <Font name="Arial Bold" size="13.0" />
-                                             </font>
-                                          </Label>
-                                          <Label fx:id="eTotalPayment" text="0">
+                                                       </TableView>
+                                                   </children>
+                                                   <VBox.margin>
+                                                       <Insets left="5.0" right="5.0" top="3.0" />
+                                                   </VBox.margin>
+                                               </HBox>
+                                           </children>
+                                       </VBox>
+                                   </content>
+                               </Tab>
+                               <Tab onSelectionChanged="#clickWDate" text="Water">
+                                   <content>
+                                       <VBox prefHeight="200.0" prefWidth="100.0">
+                                           <children>
+                                               <HBox>
+                                                   <children>
+                                                       <Label text="Date:">
+                                                           <HBox.margin>
+                                                               <Insets top="10.0" />
+                                                           </HBox.margin>
+                                                       </Label>
+                                                       <DatePicker fx:id="wDate" onAction="#clickWDate">
+                                                           <HBox.margin>
+                                                               <Insets left="3.0" top="5.0" />
+                                                           </HBox.margin>
+                                                       </DatePicker>
+                                                   </children>
+                                               </HBox>
+                                               <HBox alignment="TOP_RIGHT">
+                                                   <children>
+                                                       <Label text="Price:">
+                                                           <font>
+                                                               <Font name="Arial Bold" size="13.0" />
+                                                           </font>
+                                                           <HBox.margin>
+                                                               <Insets right="5.0" />
+                                                           </HBox.margin>
+                                                       </Label>
+                                                       <Label fx:id="wPrice" text="0" textFill="RED">
+                                                           <font>
+                                                               <Font name="Arial Bold" size="13.0" />
+                                                           </font>
+                                                       </Label>
+                                                       <Label text="Currency:">
+                                                           <HBox.margin>
+                                                               <Insets left="3.0" right="5.0" />
+                                                           </HBox.margin>
+                                                           <font>
+                                                               <Font name="Arial Bold" size="13.0" />
+                                                           </font>
+                                                       </Label>
+                                                       <Label text="RUB" textFill="RED">
+                                                           <font>
+                                                               <Font name="Arial Bold" size="13.0" />
+                                                           </font>
+                                                       </Label>
+                                                   </children>
+                                                   <VBox.margin>
+                                                       <Insets top="5.0" />
+                                                   </VBox.margin>
+                                               </HBox>
+                                               <HBox>
+                                                   <opaqueInsets>
+                                                       <Insets />
+                                                   </opaqueInsets>
+                                                   <VBox.margin>
+                                                       <Insets />
+                                                   </VBox.margin>
+                                                   <children>
+                                                       <Separator prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                                                   </children>
+                                               </HBox>
+                                               <HBox prefHeight="26.0" prefWidth="590.0">
+                                                   <children>
+                                                       <HBox prefWidth="200.0">
+                                                           <children>
+                                                               <Label text="Previous value" />
+                                                           </children>
+                                                       </HBox>
+                                                       <HBox prefHeight="100.0" prefWidth="200.0">
+                                                           <children>
+                                                               <Label text="Current value" />
+                                                           </children>
+                                                       </HBox>
+                                                   </children>
+                                                   <VBox.margin>
+                                                       <Insets top="5.0" />
+                                                   </VBox.margin>
+                                               </HBox>
+                                               <HBox prefHeight="43.0" prefWidth="590.0">
+                                                   <children>
+                                                       <HBox prefHeight="100.0" prefWidth="200.0">
+                                                           <HBox.margin>
+                                                               <Insets top="5.0" />
+                                                           </HBox.margin>
+                                                           <children>
+                                                               <Label fx:id="wPrevVal" text="0">
+                                                                   <HBox.margin>
+                                                                       <Insets left="10.0" top="5.0" />
+                                                                   </HBox.margin>
+                                                               </Label>
+                                                           </children>
+                                                       </HBox>
+                                                       <HBox prefHeight="38.0" prefWidth="386.0">
+                                                           <HBox.margin>
+                                                               <Insets top="5.0" />
+                                                           </HBox.margin>
+                                                           <children>
+                                                               <TextField fx:id="wCurValue" alignment="CENTER_RIGHT" onKeyReleased="#wValueKeyReleased" text="0" />
+                                                               <Label text="Value:">
+                                                                   <HBox.margin>
+                                                                       <Insets left="5.0" top="5.0" />
+                                                                   </HBox.margin>
+                                                                   <font>
+                                                                       <Font name="Arial Bold" size="13.0" />
+                                                                   </font>
+                                                               </Label>
+                                                               <Label fx:id="wCurValueM3" text="0">
+                                                                   <HBox.margin>
+                                                                       <Insets left="3.0" top="5.0" />
+                                                                   </HBox.margin>
+                                                                   <font>
+                                                                       <Font name="Arial Bold" size="13.0" />
+                                                                   </font>
+                                                               </Label>
+                                                               <Label text="Cost:">
+                                                                   <HBox.margin>
+                                                                       <Insets left="5.0" top="5.0" />
+                                                                   </HBox.margin>
+                                                                   <font>
+                                                                       <Font name="Arial Bold" size="13.0" />
+                                                                   </font>
+                                                               </Label>
+                                                               <Label fx:id="wCurCost" text="0">
+                                                                   <HBox.margin>
+                                                                       <Insets left="3.0" top="5.0" />
+                                                                   </HBox.margin>
+                                                                   <font>
+                                                                       <Font name="Arial Bold" size="13.0" />
+                                                                   </font>
+                                                               </Label>
+                                                           </children>
+                                                       </HBox>
+                                                   </children>
+                                               </HBox>
+                                               <HBox>
+                                                   <children>
+                                                       <Separator prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                                                   </children>
+                                               </HBox>
+                                               <HBox prefHeight="26.0" prefWidth="590.0">
+                                                   <children>
+                                                       <HBox prefHeight="100.0" prefWidth="200.0" />
+                                                       <HBox>
+                                                           <children>
+                                                               <Label alignment="CENTER_RIGHT" text="Total:">
+                                                                   <HBox.margin>
+                                                                       <Insets top="5.0" />
+                                                                   </HBox.margin>
+                                                                   <font>
+                                                                       <Font name="Arial Bold" size="13.0" />
+                                                                   </font>
+                                                               </Label>
+                                                               <Label fx:id="wTotal" text="0">
+                                                                   <HBox.margin>
+                                                                       <Insets left="5.0" top="5.0" />
+                                                                   </HBox.margin>
+                                                                   <font>
+                                                                       <Font name="Arial Bold" size="13.0" />
+                                                                   </font>
+                                                               </Label>
+                                                           </children>
+                                                       </HBox>
+                                                   </children>
+                                               </HBox>
+                                               <HBox prefHeight="26.0" prefWidth="590.0">
+                                                   <children>
+                                                       <HBox prefHeight="100.0" prefWidth="200.0" />
+                                                       <HBox prefHeight="100.0" prefWidth="200.0">
+                                                           <children>
+                                                               <Button fx:id="bwPayment" mnemonicParsing="false" onAction="#clickWPayment" text="Payment">
+                                                                   <HBox.margin>
+                                                                       <Insets top="5.0" />
+                                                                   </HBox.margin>
+                                                               </Button>
+                                                               <Button fx:id="bWFile" mnemonicParsing="false" onAction="#clickWFile" text="F">
+                                                                   <HBox.margin>
+                                                                       <Insets left="5.0" top="5.0" />
+                                                                   </HBox.margin>
+                                                               </Button>
+                                                               <Label fx:id="lblWFileName" maxWidth="150" text="none" textFill="RED">
+                                                                   <HBox.margin>
+                                                                       <Insets left="3.0" top="10.0" />
+                                                                   </HBox.margin>
+                                                               </Label>
+                                                           </children>
+                                                       </HBox>
+                                                   </children>
+                                               </HBox>
+                                               <HBox prefHeight="25.0" prefWidth="590.0">
+                                                   <children>
+                                                       <Button fx:id="bWRemovePayment" mnemonicParsing="false" onMouseClicked="#clickWRemoveHistory" text="-" />
+                                                   </children>
+                                               </HBox>
+                                               <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                                   <children>
+                                                       <TableView fx:id="tableWPayment" onMouseClicked="#clickWHistory" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                                           <columns>
+                                                               <TableColumn fx:id="wtId" prefWidth="56.0" text="id" />
+                                                               <TableColumn fx:id="wtImg" onEditStart="#cliclWImg" prefWidth="37.0" />
+                                                               <TableColumn fx:id="wtDate" prefWidth="170.0" text="Date" />
+                                                               <TableColumn fx:id="wValue" prefWidth="169.0" text="Value" />
+                                                               <TableColumn fx:id="wtPrice" prefWidth="89.0" text="Price" />
+                                                               <TableColumn fx:id="wtM3" prefWidth="120.0" text="M3" />
+                                                               <TableColumn fx:id="wtTotal" minWidth="0.0" prefWidth="137.0" text="Total" />
+                                                           </columns>
                                              <HBox.margin>
-                                                <Insets left="5.0" top="10.0" />
+                                                <Insets bottom="5.0" />
                                              </HBox.margin>
-                                          </Label>
-                                          <Button fx:id="bEPayment" mnemonicParsing="false" onAction="#clickEPayment" text="Payment">
-                                             <HBox.margin>
-                                                <Insets left="10.0" top="5.0" />
-                                             </HBox.margin>
-                                          </Button>
-                                          <Button fx:id="bEFile" mnemonicParsing="false" onAction="#clickEFile" text="F">
-                                             <HBox.margin>
-                                                <Insets left="5.0" top="5.0" />
-                                             </HBox.margin>
-                                          </Button>
-                                          <Label fx:id="lblEFileName" maxWidth="150" text="none" textFill="RED">
-                                             <HBox.margin>
-                                                <Insets left="3.0" top="10.0" />
-                                             </HBox.margin>
-                                          </Label>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </HBox>
-                              <HBox>
-                                 <children>
-                                    <Button fx:id="bERemovePayment" mnemonicParsing="false" onMouseClicked="#clickRemoveEHistory" text="-">
-                                       <HBox.margin>
-                                          <Insets left="5.0" />
-                                       </HBox.margin>
-                                    </Button>
-                                 </children>
-                              </HBox>
-                              <HBox VBox.vgrow="ALWAYS">
-                                 <children>
-                                    <TableView fx:id="tableEPayments" onMouseClicked="#clickEHistory" HBox.hgrow="ALWAYS">
-                                      <columns>
-                                        <TableColumn fx:id="id" prefWidth="43.0" text="id" />
-                                          <TableColumn fx:id="eHImg" onEditStart="#clickImg" prefWidth="30.0" />
-                                          <TableColumn fx:id="eHDate" prefWidth="120.0" text="Date" />
-                                        <TableColumn prefWidth="202.0" text="Value">
-                                             <columns>
-                                                <TableColumn fx:id="eHDay" prefWidth="89.0" text="Day" />
-                                                <TableColumn fx:id="eHNight" prefWidth="86.0" text="Night" />
-                                             </columns>
-                                          </TableColumn>
-                                          <TableColumn prefWidth="164.0" text="Price">
-                                             <columns>
-                                                <TableColumn fx:id="eHPDay" prefWidth="75.0" text="Day" />
-                                                <TableColumn fx:id="eHPNight" prefWidth="75.0" text="Night" />
-                                             </columns>
-                                          </TableColumn>
-                                          <TableColumn prefWidth="75.0" text="Kwt/h">
-                                             <columns>
-                                                <TableColumn fx:id="eHKwtDay" prefWidth="75.0" text="Day" />
-                                                <TableColumn fx:id="eHKwtNight" prefWidth="75.0" text="Night" />
-                                             </columns>
-                                          </TableColumn>
-                                          <TableColumn fx:id="eHTotal" prefWidth="94.0" text="Total" />
-                                      </columns>
-                                    </TableView>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets left="5.0" right="5.0" top="3.0" />
-                                 </VBox.margin>
-                              </HBox>
-                           </children>
-                        </VBox>
-                     </content>
-                </Tab>
-                <Tab onSelectionChanged="#clickWDate" text="Water">
-                     <content>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                              <HBox>
-                                 <children>
-                                    <Label text="Date:">
-                                       <HBox.margin>
-                                          <Insets top="10.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <DatePicker fx:id="wDate" onAction="#clickWDate">
-                                       <HBox.margin>
-                                          <Insets left="3.0" top="5.0" />
-                                       </HBox.margin>
-                                    </DatePicker>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="TOP_RIGHT">
-                                 <children>
-                                    <Label text="Price:">
-                                       <font>
-                                          <Font name="Arial Bold" size="13.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets right="5.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Label fx:id="wPrice" text="0" textFill="RED">
-                                       <font>
-                                          <Font name="Arial Bold" size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <Label text="Currency:">
-                                       <HBox.margin>
-                                          <Insets left="3.0" right="5.0" />
-                                       </HBox.margin>
-                                       <font>
-                                          <Font name="Arial Bold" size="13.0" />
-                                       </font>
-                                    </Label>
-                                    <Label text="RUB" textFill="RED">
-                                       <font>
-                                          <Font name="Arial Bold" size="13.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets top="5.0" />
-                                 </VBox.margin>
-                              </HBox>
-                              <HBox>
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                                 <children>
-                                    <Separator prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                                 </children>
-                              </HBox>
-                              <HBox prefHeight="26.0" prefWidth="590.0">
-                                 <children>
-                                    <HBox prefWidth="200.0">
-                                       <children>
-                                          <Label text="Previous value" />
-                                       </children>
-                                    </HBox>
-                                    <HBox prefHeight="100.0" prefWidth="200.0">
-                                       <children>
-                                          <Label text="Current value" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets top="5.0" />
-                                 </VBox.margin>
-                              </HBox>
-                              <HBox prefHeight="43.0" prefWidth="590.0">
-                                 <children>
-                                    <HBox prefHeight="100.0" prefWidth="200.0">
-                                       <HBox.margin>
-                                          <Insets top="5.0" />
-                                       </HBox.margin>
-                                       <children>
-                                          <Label fx:id="wPrevVal" text="0">
-                                             <HBox.margin>
-                                                <Insets left="10.0" top="5.0" />
-                                             </HBox.margin>
-                                          </Label>
-                                       </children>
-                                    </HBox>
-                                    <HBox prefHeight="38.0" prefWidth="386.0">
-                                       <HBox.margin>
-                                          <Insets top="5.0" />
-                                       </HBox.margin>
-                                       <children>
-                                          <TextField fx:id="wCurValue" alignment="CENTER_RIGHT" onKeyReleased="#wValueKeyReleased" text="0" />
-                                          <Label text="Value:">
-                                             <HBox.margin>
-                                                <Insets left="5.0" top="5.0" />
-                                             </HBox.margin>
-                                             <font>
-                                                <Font name="Arial Bold" size="13.0" />
-                                             </font>
-                                          </Label>
-                                          <Label fx:id="wCurValueM3" text="0">
-                                             <HBox.margin>
-                                                <Insets left="3.0" top="5.0" />
-                                             </HBox.margin>
-                                             <font>
-                                                <Font name="Arial Bold" size="13.0" />
-                                             </font>
-                                          </Label>
-                                          <Label text="Cost:">
-                                             <HBox.margin>
-                                                <Insets left="5.0" top="5.0" />
-                                             </HBox.margin>
-                                             <font>
-                                                <Font name="Arial Bold" size="13.0" />
-                                             </font>
-                                          </Label>
-                                          <Label fx:id="wCurCost" text="0">
-                                             <HBox.margin>
-                                                <Insets left="3.0" top="5.0" />
-                                             </HBox.margin>
-                                             <font>
-                                                <Font name="Arial Bold" size="13.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </HBox>
-                              <HBox>
-                                 <children>
-                                    <Separator prefWidth="200.0" HBox.hgrow="ALWAYS" />
-                                 </children>
-                              </HBox>
-                              <HBox prefHeight="26.0" prefWidth="590.0">
-                                 <children>
-                                    <HBox prefHeight="100.0" prefWidth="200.0" />
-                                    <HBox>
-                                       <children>
-                                          <Label alignment="CENTER_RIGHT" text="Total:">
-                                             <HBox.margin>
-                                                <Insets top="5.0" />
-                                             </HBox.margin>
-                                             <font>
-                                                <Font name="Arial Bold" size="13.0" />
-                                             </font>
-                                          </Label>
-                                          <Label fx:id="wTotal" text="0">
-                                             <HBox.margin>
-                                                <Insets left="5.0" top="5.0" />
-                                             </HBox.margin>
-                                             <font>
-                                                <Font name="Arial Bold" size="13.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </HBox>
-                              <HBox prefHeight="26.0" prefWidth="590.0">
-                                 <children>
-                                    <HBox prefHeight="100.0" prefWidth="200.0" />
-                                    <HBox prefHeight="100.0" prefWidth="200.0">
-                                       <children>
-                                          <Button fx:id="bwPayment" mnemonicParsing="false" onAction="#clickWPayment" text="Payment">
-                                             <HBox.margin>
-                                                <Insets top="5.0" />
-                                             </HBox.margin>
-                                          </Button>
-                                          <Button fx:id="bWFile" mnemonicParsing="false" onAction="#clickWFile" text="F">
-                                             <HBox.margin>
-                                                <Insets left="5.0" top="5.0" />
-                                             </HBox.margin>
-                                          </Button>
-                                          <Label fx:id="lblWFileName" maxWidth="150" text="none" textFill="RED">
-                                             <HBox.margin>
-                                                <Insets left="3.0" top="10.0" />
-                                             </HBox.margin>
-                                          </Label>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </HBox>
-                              <HBox prefHeight="25.0" prefWidth="590.0">
-                                 <children>
-                                    <Button fx:id="bWRemovePayment" mnemonicParsing="false" onMouseClicked="#clickWRemoveHistory" text="-" />
-                                 </children>
-                              </HBox>
-                              <HBox prefHeight="100.0" prefWidth="200.0">
-                                 <children>
-                                    <TableView fx:id="tableWPayment" onMouseClicked="#clickWHistory" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
-                                      <columns>
-                                        <TableColumn fx:id="wtId" prefWidth="56.0" text="id" />
-                                          <TableColumn fx:id="wtImg" onEditStart="#cliclWImg" prefWidth="37.0" />
-                                          <TableColumn fx:id="wtDate" prefWidth="170.0" text="Date" />
-                                        <TableColumn fx:id="wValue" prefWidth="169.0" text="Value" />
-                                          <TableColumn fx:id="wtPrice" prefWidth="89.0" text="Price" />
-                                          <TableColumn fx:id="wtM3" prefWidth="120.0" text="M3" />
-                                          <TableColumn fx:id="wtTotal" minWidth="0.0" prefWidth="137.0" text="Total" />
-                                      </columns>
-                                    </TableView>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets top="3.0" />
-                                 </VBox.margin>
-                              </HBox>
-                           </children>
-                           <padding>
-                              <Insets left="5.0" right="5.0" />
-                           </padding>
-                        </VBox>
-                     </content>
-                </Tab>
-              </tabs>
-            </TabPane>
-         </children>
-      </HBox>
+                                                       </TableView>
+                                                   </children>
+                                                   <VBox.margin>
+                                                       <Insets top="3.0" />
+                                                   </VBox.margin>
+                                               </HBox>
+                                           </children>
+                                           <padding>
+                                               <Insets left="5.0" right="5.0" />
+                                           </padding>
+                                       </VBox>
+                                   </content>
+                               </Tab>
+                           </tabs>
+                       </TabPane>
+                   </children>
+               </HBox>
+           </children>
+       </VBox>
    </children>
-</VBox>
+</AnchorPane>

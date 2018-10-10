@@ -46,7 +46,7 @@ public class PDFViewController {
         try {
             document = PDDocument.load(arr);
             renderer = new PDFRenderer(document);
-            fCountPage.setText(String.valueOf(document.getPages().getCount() + 1));
+            fCountPage.setText(String.valueOf(document.getPages().getCount()));
             fNPage.setText("1");
             curPage = 0;
             loadPage();
@@ -74,7 +74,7 @@ public class PDFViewController {
     }
 
     public void clickNext(ActionEvent event) {
-        if (document.getPages().getCount() > curPage) {
+        if (document.getPages().getCount() - 1 > curPage) {
             curPage++;
             fNPage.setText(String.valueOf(curPage + 1));
             loadPage();

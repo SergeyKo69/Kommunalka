@@ -1,5 +1,6 @@
 package ru.macrohome.client;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -15,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.macrohome.common.*;
@@ -28,20 +30,26 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 public class MainController {
 
     private ObservableList<EHTable> tableEHistory = FXCollections.observableArrayList();
     private ObservableList<WHTable> tableWHistory = FXCollections.observableArrayList();
-    public DecimalFormat df = new DecimalFormat("#.00");
+    public DecimalFormat df = FormUtility.getDecimalFormat();
     private final String DESCRIPTION_FILE = "PDF files (*.pdf)";
     private final String EXTENSIONS_FILE = "*.pdf";
     private File eFile;
     private File wFile;
 
+    @FXML
+    public VBox splashForm;
+    @FXML
+    public VBox mainForm;
     @FXML
     public Label ePriceDay;
     @FXML
@@ -139,20 +147,23 @@ public class MainController {
     @FXML
     public Button bWFile;
 
+    public Stage newStage;
+
     @FXML
-    public void initialize(){
-        initFirstValues();
-        initTables();
-        initDatas();
-        initLateEPaymentValues();
-        initLateWPaymentValues();
+    public void initialize() {
+//        initFirstValues();
+//        initTables();
+//        initDatas();
+//        initLateEPaymentValues();
+//        initLateWPaymentValues();
     }
 
     public void clickClose(ActionEvent actionEvent) {
         close();
     }
 
-    private void initTables(){
+    protected void initTables(){
+
         initView();
         initETable();
         initWTable();
@@ -168,7 +179,7 @@ public class MainController {
         History.initWPaymentHistory(tableWHistory, tableWPayment);
     }
 
-    public void initLateEPaymentValues() {
+    protected void initLateEPaymentValues() {
         eDayPrevValue.setText("0");
         eNightPrevValue.setText("0");
         Answer answ = DataBaseUtility.getPaymentFirstValueByDateView(Date.valueOf(eDate.getValue()), 1);
@@ -184,7 +195,7 @@ public class MainController {
         }
     }
 
-    public void initLateWPaymentValues() {
+    protected void initLateWPaymentValues() {
         wPrevVal.setText("0");
         Answer answ = DataBaseUtility.getPaymentFirstValueByDateView(Date.valueOf(eDate.getValue()), 2);
         if (answ.answ == Answers.ERROR) {
@@ -198,7 +209,7 @@ public class MainController {
         }
     }
 
-    private void initETable() {
+    protected void initETable() {
         id.setCellValueFactory(new PropertyValueFactory<EHTable, Integer>("id"));
         eHDate.setCellValueFactory(tableEHistory->new SimpleStringProperty(tableEHistory.getValue().getDate()));
         eHImg.setCellValueFactory(tableEHistory->new SimpleObjectProperty<>(tableEHistory.getValue().getImageView()));
@@ -238,7 +249,7 @@ public class MainController {
         wtTotal.setStyle("-fx-alignment: CENTER-RIGHT;");
     }
 
-    private void initFirstValues(){
+    protected void initFirstValues(){
         eDate.setConverter(DateUtils.getStringConverter());
         eDate.setPromptText("dd.MM.yyyy");
         eDate.setValue(LocalDate.now());
@@ -251,7 +262,7 @@ public class MainController {
         bWFile.setGraphic(new ImageView("./images/skrepka.jpg"));
     }
 
-    private void initDatas(){
+    protected void initDatas(){
         Date date = Date.valueOf(LocalDate.now());
         //Personal account.
         initASettingsByDate(date);
@@ -304,7 +315,7 @@ public class MainController {
         }
     }
 
-    private void initView(){
+    public void initView(){
         Answer answ = DataBaseUtility.getList(Tables.VIEWS, new Condition[0]);
         if (answ.answ == Answers.ERROR){
             InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error initialization",answ.description + "\n Application will be close");
@@ -340,6 +351,17 @@ public class MainController {
     }
 
     public void clickAbout(ActionEvent actionEvent) {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/aboutForm.fxml"));
+        Parent root = null;
+        try {
+            root = (Parent) fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.showAndWait();
     }
 
     public void clickEDate(ActionEvent actionEvent) {

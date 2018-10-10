@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="95.0" prefWidth="490.0">
+               <children>
+                  <Label text="Kommunalka" textAlignment="JUSTIFY">
+                     <font>
+                        <Font name="Arial" size="41.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Separator HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <HBox alignment="TOP_RIGHT">
+               <children>
+                  <Label text="version 1.0" />
+               </children>
+            </HBox>
+            <HBox alignment="TOP_RIGHT" VBox.vgrow="ALWAYS">
+               <children>
+                  <Label text="Developing by Kogut Sergey" textFill="#9a9595" />
+               </children>
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="©  MacroHome 2018" textFill="#a4a3a3" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

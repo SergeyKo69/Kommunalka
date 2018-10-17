@@ -162,30 +162,57 @@ public class MainController {
         close();
     }
 
-    protected void initTables(){
-
-        initView();
-        initETable();
-        initWTable();
-        initEPaymentHistory();
-        initWPaymentHistory();
+    protected Answer initTables(){
+        Answer answ = null;
+        answ = initView();
+        if (answ.answ == Answers.ERROR){
+            return answ;
+        }
+        System.out.println("end init view");
+        System.out.println("start init e table");
+        answ = initETable();
+        if (answ.answ == Answers.ERROR){
+            return answ;
+        }
+        System.out.println("end init e table");
+        System.out.println("start init w table");
+        answ = initWTable();
+        if (answ.answ == Answers.ERROR){
+            return answ;
+        }
+        System.out.println("end init w table");
+        System.out.println("start init e payment history");
+        answ = initEPaymentHistory();
+        if (answ.answ == Answers.ERROR){
+            return answ;
+        }
+        System.out.println("end init e payment history");
+        System.out.println("start init w payment history");
+        answ = initWPaymentHistory();
+        if (answ.answ == Answers.ERROR){
+            return answ;
+        }
+        System.out.println("end init w payment history");
+        return new Answer(Answers.OK);
     }
 
-    public void initEPaymentHistory(){
-        History.initEPaymentHistory(tableEHistory, tableEPayments);
+    public Answer initEPaymentHistory(){
+        System.out.println("1");
+        return History.initEPaymentHistory(tableEHistory, tableEPayments);
     }
 
-    public void initWPaymentHistory(){
-        History.initWPaymentHistory(tableWHistory, tableWPayment);
+    public Answer initWPaymentHistory(){
+        return History.initWPaymentHistory(tableWHistory, tableWPayment);
     }
 
-    protected void initLateEPaymentValues() {
+    protected Answer initLateEPaymentValues() {
         eDayPrevValue.setText("0");
         eNightPrevValue.setText("0");
         Answer answ = DataBaseUtility.getPaymentFirstValueByDateView(Date.valueOf(eDate.getValue()), 1);
         if (answ.answ == Answers.ERROR) {
             InterfaceBoxes.showMessage(Alert.AlertType.ERROR, "Error initialization", answ.description + "\n Application will be close");
             close();
+            return answ;
         }else {
             if (answ.list.size() > 0) {
                 PaymentsEntity payment = (PaymentsEntity) answ.list.get(0);
@@ -193,91 +220,123 @@ public class MainController {
                 eNightPrevValue.setText(payment.getrVal2());
             }
         }
+        return new Answer(Answers.OK);
     }
 
-    protected void initLateWPaymentValues() {
+    protected Answer initLateWPaymentValues() {
         wPrevVal.setText("0");
         Answer answ = DataBaseUtility.getPaymentFirstValueByDateView(Date.valueOf(eDate.getValue()), 2);
         if (answ.answ == Answers.ERROR) {
             InterfaceBoxes.showMessage(Alert.AlertType.ERROR, "Error initialization", answ.description + "\n Application will be close");
             close();
+            return answ;
         }else{
             if (answ.list.size() > 0){
                 PaymentsEntity payment = (PaymentsEntity)answ.list.get(0);
                 wPrevVal.setText(payment.getrVal1());
             }
         }
+        return new Answer(Answers.OK);
     }
 
-    protected void initETable() {
-        id.setCellValueFactory(new PropertyValueFactory<EHTable, Integer>("id"));
-        eHDate.setCellValueFactory(tableEHistory->new SimpleStringProperty(tableEHistory.getValue().getDate()));
-        eHImg.setCellValueFactory(tableEHistory->new SimpleObjectProperty<>(tableEHistory.getValue().getImageView()));
-        eHDay.setCellValueFactory(tableEHistory->new SimpleStringProperty(tableEHistory.getValue().geteHDay()));
-        eHNight.setCellValueFactory(tableEHistory->new SimpleStringProperty(tableEHistory.getValue().geteHNight()));
-        eHPDay.setCellValueFactory(tableEHistory->new SimpleStringProperty(tableEHistory.getValue().geteHPDay()));
-        eHPNight.setCellValueFactory(tableEHistory->new SimpleStringProperty(tableEHistory.getValue().geteHPNight()));
-        eHKwtDay.setCellValueFactory(tableEHistory->new SimpleStringProperty(tableEHistory.getValue().geteHKwtDay()));
-        eHKwtNight.setCellValueFactory(tableEHistory->new SimpleStringProperty(tableEHistory.getValue().geteHKwtNight()));
-        eHTotal.setCellValueFactory(tableEHistory-> new SimpleStringProperty(tableEHistory.getValue().geteHTotal()));
-        id.setStyle("-fx-alignment: CENTER;");
-        eHImg.setStyle("-fx-alignment: CENTER;");
-        eHDate.setStyle("-fx-alignment: CENTER;");
-        eHDay.setStyle("-fx-alignment: CENTER-RIGHT;");
-        eHNight.setStyle("-fx-alignment: CENTER-RIGHT;");
-        eHPDay.setStyle("-fx-alignment: CENTER-RIGHT;");
-        eHPNight.setStyle("-fx-alignment: CENTER-RIGHT;");
-        eHKwtDay.setStyle("-fx-alignment: CENTER-RIGHT;");
-        eHKwtNight.setStyle("-fx-alignment: CENTER-RIGHT;");
-        eHTotal.setStyle("-fx-alignment: CENTER-RIGHT;");
+    protected Answer initETable() {
+        try {
+            id.setCellValueFactory(new PropertyValueFactory<EHTable, Integer>("id"));
+            eHDate.setCellValueFactory(tableEHistory -> new SimpleStringProperty(tableEHistory.getValue().getDate()));
+            eHImg.setCellValueFactory(tableEHistory -> new SimpleObjectProperty<>(tableEHistory.getValue().getImageView()));
+            eHDay.setCellValueFactory(tableEHistory -> new SimpleStringProperty(tableEHistory.getValue().geteHDay()));
+            eHNight.setCellValueFactory(tableEHistory -> new SimpleStringProperty(tableEHistory.getValue().geteHNight()));
+            eHPDay.setCellValueFactory(tableEHistory -> new SimpleStringProperty(tableEHistory.getValue().geteHPDay()));
+            eHPNight.setCellValueFactory(tableEHistory -> new SimpleStringProperty(tableEHistory.getValue().geteHPNight()));
+            eHKwtDay.setCellValueFactory(tableEHistory -> new SimpleStringProperty(tableEHistory.getValue().geteHKwtDay()));
+            eHKwtNight.setCellValueFactory(tableEHistory -> new SimpleStringProperty(tableEHistory.getValue().geteHKwtNight()));
+            eHTotal.setCellValueFactory(tableEHistory -> new SimpleStringProperty(tableEHistory.getValue().geteHTotal()));
+            id.setStyle("-fx-alignment: CENTER;");
+            eHImg.setStyle("-fx-alignment: CENTER;");
+            eHDate.setStyle("-fx-alignment: CENTER;");
+            eHDay.setStyle("-fx-alignment: CENTER-RIGHT;");
+            eHNight.setStyle("-fx-alignment: CENTER-RIGHT;");
+            eHPDay.setStyle("-fx-alignment: CENTER-RIGHT;");
+            eHPNight.setStyle("-fx-alignment: CENTER-RIGHT;");
+            eHKwtDay.setStyle("-fx-alignment: CENTER-RIGHT;");
+            eHKwtNight.setStyle("-fx-alignment: CENTER-RIGHT;");
+            eHTotal.setStyle("-fx-alignment: CENTER-RIGHT;");
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Answer(Answers.ERROR,e.getMessage());
+        }
+        return new Answer(Answers.OK);
     }
 
-    private void initWTable(){
-        wtId.setCellValueFactory(tableWHistory->new SimpleObjectProperty<>(tableWHistory.getValue().getWtId()));
-        wtImg.setCellValueFactory(tableWHistory->new SimpleObjectProperty<>(tableWHistory.getValue().getImageView()));
-        wtDate.setCellValueFactory(tableWHistory->new SimpleStringProperty(tableWHistory.getValue().getWtDate()));
-        wValue.setCellValueFactory(tableWHistory->new SimpleStringProperty(tableWHistory.getValue().getWtValue()));
-        wtPrice.setCellValueFactory(tableWHistory->new SimpleStringProperty(tableWHistory.getValue().getWtPrice()));
-        wtM3.setCellValueFactory(tableWHistory->new SimpleStringProperty(tableWHistory.getValue().getWtM3()));
-        wtTotal.setCellValueFactory(tableWHistory->new SimpleStringProperty(tableWHistory.getValue().getWtTotal()));
-        wtId.setStyle("-fx-alignment: CENTER;");
-        wtImg.setStyle("-fx-alignment: CENTER;");
-        wtDate.setStyle("-fx-alignment: CENTER;");
-        wValue.setStyle("-fx-alignment: CENTER-RIGHT;");
-        wtPrice.setStyle("-fx-alignment: CENTER-RIGHT;");
-        wtM3.setStyle("-fx-alignment: CENTER-RIGHT;");
-        wtTotal.setStyle("-fx-alignment: CENTER-RIGHT;");
+    private Answer initWTable(){
+        try {
+            wtId.setCellValueFactory(tableWHistory->new SimpleObjectProperty<>(tableWHistory.getValue().getWtId()));
+            wtImg.setCellValueFactory(tableWHistory->new SimpleObjectProperty<>(tableWHistory.getValue().getImageView()));
+            wtDate.setCellValueFactory(tableWHistory->new SimpleStringProperty(tableWHistory.getValue().getWtDate()));
+            wValue.setCellValueFactory(tableWHistory->new SimpleStringProperty(tableWHistory.getValue().getWtValue()));
+            wtPrice.setCellValueFactory(tableWHistory->new SimpleStringProperty(tableWHistory.getValue().getWtPrice()));
+            wtM3.setCellValueFactory(tableWHistory->new SimpleStringProperty(tableWHistory.getValue().getWtM3()));
+            wtTotal.setCellValueFactory(tableWHistory->new SimpleStringProperty(tableWHistory.getValue().getWtTotal()));
+            wtId.setStyle("-fx-alignment: CENTER;");
+            wtImg.setStyle("-fx-alignment: CENTER;");
+            wtDate.setStyle("-fx-alignment: CENTER;");
+            wValue.setStyle("-fx-alignment: CENTER-RIGHT;");
+            wtPrice.setStyle("-fx-alignment: CENTER-RIGHT;");
+            wtM3.setStyle("-fx-alignment: CENTER-RIGHT;");
+            wtTotal.setStyle("-fx-alignment: CENTER-RIGHT;");
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Answer(Answers.ERROR,e.getMessage());
+        }
+        return new Answer(Answers.OK);
     }
 
-    protected void initFirstValues(){
-        eDate.setConverter(DateUtils.getStringConverter());
-        eDate.setPromptText("dd.MM.yyyy");
-        eDate.setValue(LocalDate.now());
-        wDate.setConverter(DateUtils.getStringConverter());
-        wDate.setPromptText("dd.MM.yyyy");
-        wDate.setValue(LocalDate.now());
-        bEFile.setText("");
-        bEFile.setGraphic(new ImageView("./images/skrepka.jpg"));
-        bWFile.setText("");
-        bWFile.setGraphic(new ImageView("./images/skrepka.jpg"));
+    protected Answer initFirstValues(){
+        try {
+            eDate.setConverter(DateUtils.getStringConverter());
+            eDate.setPromptText("dd.MM.yyyy");
+            eDate.setValue(LocalDate.now());
+            wDate.setConverter(DateUtils.getStringConverter());
+            wDate.setPromptText("dd.MM.yyyy");
+            wDate.setValue(LocalDate.now());
+            bEFile.setText("");
+            bEFile.setGraphic(new ImageView(getClass().getResource("/images/skrepka.jpg").toExternalForm()));
+            bWFile.setText("");
+            bWFile.setGraphic(new ImageView(getClass().getResource("/images/skrepka.jpg").toExternalForm()));
+        }catch(Exception e) {
+            return new Answer(Answers.ERROR,e.getMessage());
+        }
+        return new Answer(Answers.OK);
     }
 
-    protected void initDatas(){
+    protected Answer initDatas(){
         Date date = Date.valueOf(LocalDate.now());
+        Answer answ = null;
         //Personal account.
-        initASettingsByDate(date);
+        answ = initASettingsByDate(date);
+        if (answ.answ == Answers.ERROR){
+            return answ;
+        }
         //Electricity.
-        initESettingsByDate(date);
+        answ = initESettingsByDate(date);
+        if (answ.answ == Answers.ERROR){
+            return answ;
+        }
         //Water.
-        initWSettingsByDate(date);
+        answ = initWSettingsByDate(date);
+        if (answ.answ == Answers.ERROR){
+            return answ;
+        }
+        return new Answer(Answers.OK);
     }
 
-    private void initESettingsByDate(Date date){
+    private Answer initESettingsByDate(Date date){
         ePriceDay.setText("0");
         ePriceNight.setText("0");
         Answer answ = DataBaseUtility.getSettingsFirstValueByDateView(date,1);
         if (answ.answ == Answers.ERROR){
             InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error get electricity settings",answ.description + "\n You need reopen application");
+            return answ;
         }else {
             List<Entities> list = answ.list;
             if (list.size() > 0) {
@@ -286,13 +345,15 @@ public class MainController {
                 ePriceNight.setText(settings.getVal2());
             }
         }
+        return new Answer(Answers.OK);
     }
 
-    private void initWSettingsByDate(Date date){
+    private Answer initWSettingsByDate(Date date){
         wPrice.setText("0");
         Answer answ = DataBaseUtility.getSettingsFirstValueByDateView(date,2);
         if (answ.answ == Answers.ERROR){
             InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error get water settings",answ.description + "\n You need reopen application");
+            return answ;
         }else {
             List<Entities> list = answ.list;
             if (list.size() > 0) {
@@ -300,12 +361,14 @@ public class MainController {
                 wPrice.setText(settings.getVal1());
             }
         }
+        return new Answer(Answers.OK);
     }
 
-    private void initASettingsByDate(Date date){
+    private Answer initASettingsByDate(Date date){
         Answer answ = DataBaseUtility.getSettingsFirstValueByDateView(date,3);
         if (answ.answ == Answers.ERROR){
             InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error get personal account settings",answ.description + "\n You need reopen application");
+            return answ;
         }else{
             List<Entities> list = answ.list;
             if (list.size() > 0) {
@@ -313,14 +376,12 @@ public class MainController {
                 lblAccount.setText(settings.getVal1());
             }
         }
+        return new Answer(Answers.OK);
     }
 
-    public void initView(){
+    public Answer initView(){
         Answer answ = DataBaseUtility.getList(Tables.VIEWS, new Condition[0]);
-        if (answ.answ == Answers.ERROR){
-            InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error initialization",answ.description + "\n Application will be close");
-            close();
-        }else if (answ.list.size() < 1){
+        if ((answ.answ != Answers.ERROR) && (answ.list.size() < 1)) {
             ViewsEntity[] views = new ViewsEntity[2];
             views[0] = new ViewsEntity();
             views[0].setName("Electricity");
@@ -330,10 +391,10 @@ public class MainController {
             views[1].setId_v(2);
             answ = DataBaseUtility.saveEntity(views);
             if (answ.answ == Answers.ERROR){
-                InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error initialization","Application will be close");
-                close();
+                return answ;
             }
         }
+        return answ;
     }
 
     public void clickSettings(ActionEvent actionEvent) {
@@ -342,12 +403,13 @@ public class MainController {
         try {
             root = (Parent) fxmlLoader.load();
         } catch (IOException e) {
-            e.printStackTrace();
+            InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error create about form",e.getMessage());
         }
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
+        initDatas();
     }
 
     public void clickAbout(ActionEvent actionEvent) {
@@ -356,7 +418,7 @@ public class MainController {
         try {
             root = (Parent) fxmlLoader.load();
         } catch (IOException e) {
-            e.printStackTrace();
+            InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error create about form",e.getMessage());
         }
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
@@ -462,7 +524,7 @@ public class MainController {
             try {
                 root = (Parent) fxmlLoader.load();
             } catch (IOException e) {
-                e.printStackTrace();
+                InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error create about form",e.getMessage());
             }
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -632,7 +694,7 @@ public class MainController {
             try {
                 root = (Parent) fxmlLoader.load();
             } catch (IOException e) {
-                e.printStackTrace();
+                InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error create about form",e.getMessage());
             }
             Stage stage = new Stage();
             stage.setScene(new Scene(root));

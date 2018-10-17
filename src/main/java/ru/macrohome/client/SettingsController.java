@@ -59,8 +59,10 @@ public class SettingsController {
     public void initValueForm(){
         eDate.setConverter(DateUtils.getStringConverter());
         eDate.setPromptText("dd.MM.yyyy");
+        eDate.setValue(LocalDate.now());
         wDate.setConverter(DateUtils.getStringConverter());
         wDate.setPromptText("dd.MM.yyyy");
+        wDate.setValue(LocalDate.now());
     }
 
     private void getESettings(Date date){
@@ -70,14 +72,14 @@ public class SettingsController {
             InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error get electricity settings",answ.description + "\n You need reopen application");
         }else{
             List<Entities> list = answ.list;
-            if (list.size() == 0){
-                eDate.setValue(LocalDate.now());
-            }else{
+            if (list.size() > 0) {
                 SettingsEntity settings = (SettingsEntity) list.get(0);
                 temp_eSettings = settings;
-                eDate.setValue(settings.getDate().toLocalDate());
                 eDay.setText(settings.getVal1());
                 eNight.setText(settings.getVal2());
+            }else{
+                eDay.setText("0");
+                eNight.setText("0");
             }
         }
     }
@@ -88,13 +90,12 @@ public class SettingsController {
             InterfaceBoxes.showMessage(Alert.AlertType.ERROR,"Error get water settings",answ.description + "\n You need reopen application");
         }else{
             List<Entities> list = answ.list;
-            if (list.size() == 0){
-                wDate.setValue(LocalDate.now());
-            }else{
+            if (list.size() > 0) {
                 SettingsEntity settings = (SettingsEntity) list.get(0);
                 temp_wSettings = settings;
-                wDate.setValue(settings.getDate().toLocalDate());
                 wValue.setText(settings.getVal1());
+            }else{
+                wValue.setText("0");
             }
         }
     }
@@ -109,6 +110,8 @@ public class SettingsController {
                 SettingsEntity settings = (SettingsEntity) list.get(0);
                 temp_aSettings = settings;
                 txtAccount.setText(settings.getVal1());
+            }else{
+                txtAccount.setText("0");
             }
         }
     }
@@ -116,9 +119,9 @@ public class SettingsController {
     private void getSettings(){
         Date date = Date.valueOf(LocalDate.now());
         //Electricity.
-        getESettings(date);
+        getESettings(Date.valueOf(eDate.getValue()));
         //Water.
-        getWSettings(date);
+        getWSettings(Date.valueOf(wDate.getValue()));
         //Personal account.
         getASettings(date);
     }
@@ -185,7 +188,7 @@ public class SettingsController {
                         "Error save settings\n" + answ.description);
             }
         }
-        close();
+//        close();
     }
 
     public void clickBClose(ActionEvent actionEvent) {
@@ -231,6 +234,7 @@ public class SettingsController {
         stage.setScene(new Scene(root));
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
+        getESettings(Date.valueOf(wDate.getValue()));
     }
 
     public void clickOpenWaterHistory(ActionEvent event) {
@@ -245,6 +249,7 @@ public class SettingsController {
         stage.setScene(new Scene(root));
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
+        getWSettings(Date.valueOf(wDate.getValue()));
     }
 
     public void clickOpenAccHistory(ActionEvent event) {
@@ -259,5 +264,6 @@ public class SettingsController {
         stage.setScene(new Scene(root));
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
+        getASettings(Date.valueOf(LocalDate.now()));
     }
 }

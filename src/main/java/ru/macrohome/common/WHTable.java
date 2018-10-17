@@ -59,7 +59,7 @@ public class WHTable {
     }
 
     public void setImage(){
-        setImageView(new ImageView(new Image("./images/skrepka.jpg")));
+        setImageView(new ImageView(getClass().getResource("/images/skrepka.jpg").toExternalForm()));
     }
 
     public ImageView getImageView() {

@@ -1,5 +1,7 @@
 package ru.macrohome.common;
 
+import java.sql.Date;
+
 public class HistoryTable {
     private Integer id;
     private String date;

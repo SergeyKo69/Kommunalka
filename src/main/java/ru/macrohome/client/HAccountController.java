@@ -53,9 +53,11 @@ public class HAccountController {
     }
 
     public void clickDel(ActionEvent event) {
-        SettingsEntity settingRow = (SettingsEntity) tTableHistory.getSelectionModel().getSelectedItem();
-        History.delete(settingRow);
-        initHistory();
+        HistoryTable historyRow = (HistoryTable) tTableHistory.getSelectionModel().getSelectedItem();
+        if (historyRow != null) {
+            History.delete(historyRow);
+            initHistory();
+        }
     }
 
     public void clickTab(MouseEvent mouseEvent) {
